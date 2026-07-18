@@ -1,0 +1,447 @@
+<title>Maine Democratic Senate Primary — Delegate Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  /* ---------- Tokens ---------- */
+  :root {
+    --bg: #f4f5f3;
+    --surface: #fcfcfb;
+    --surface-2: #eef0ed;
+    --ink: #1b211f;
+    --ink-muted: #5c6663;
+    --ink-faint: #8a9490;
+    --hairline: #dde2de;
+    --hairline-strong: #c9d0cb;
+    --accent: #0b8f74;
+
+    /* candidate hues (light) — validated categorical */
+    --c-jackson: #0b8f74;
+    --c-bellows: #8e5cc4;
+    --c-shah: #b9741a;
+    --c-tie: #7f8a86;         /* split / tie */
+    --c-none: #e4e7e4;        /* not yet reporting */
+    --c-none-stroke: #cbd2cd;
+
+    --shadow: 0 1px 2px rgba(20,30,25,.04), 0 4px 16px rgba(20,30,25,.05);
+    --radius: 14px;
+    --radius-sm: 9px;
+
+    --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --maxw: 1120px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101416;
+      --surface: #171c1f;
+      --surface-2: #1f2529;
+      --ink: #e8ecea;
+      --ink-muted: #93a09b;
+      --ink-faint: #6b7772;
+      --hairline: #262d30;
+      --hairline-strong: #333c40;
+      --accent: #2ca890;
+
+      --c-jackson: #2ca890;
+      --c-bellows: #a97be0;
+      --c-shah: #d2712b;
+      --c-tie: #8b9691;
+      --c-none: #232a2d;
+      --c-none-stroke: #333c40;
+
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+    }
+  }
+  /* explicit toggle wins over the media query in both directions */
+  :root[data-theme="light"] {
+    --bg: #f4f5f3; --surface: #fcfcfb; --surface-2: #eef0ed;
+    --ink: #1b211f; --ink-muted: #5c6663; --ink-faint: #8a9490;
+    --hairline: #dde2de; --hairline-strong: #c9d0cb; --accent: #0b8f74;
+    --c-jackson: #0b8f74; --c-bellows: #8e5cc4; --c-shah: #b9741a;
+    --c-tie: #7f8a86; --c-none: #e4e7e4; --c-none-stroke: #cbd2cd;
+    --shadow: 0 1px 2px rgba(20,30,25,.04), 0 4px 16px rgba(20,30,25,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #101416; --surface: #171c1f; --surface-2: #1f2529;
+    --ink: #e8ecea; --ink-muted: #93a09b; --ink-faint: #6b7772;
+    --hairline: #262d30; --hairline-strong: #333c40; --accent: #2ca890;
+    --c-jackson: #2ca890; --c-bellows: #a97be0; --c-shah: #d2712b;
+    --c-tie: #8b9691; --c-none: #232a2d; --c-none-stroke: #333c40;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "kern" 1;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: clamp(20px, 4vw, 44px) clamp(16px, 4vw, 32px) 64px; }
+
+  /* ---------- Masthead ---------- */
+  header.masthead { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 24px; padding-bottom: 20px; border-bottom: 1.5px solid var(--hairline-strong); }
+  .eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-muted); font-weight: 600; margin: 0 0 8px; }
+  h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(26px, 4.2vw, 40px); line-height: 1.06; letter-spacing: -.01em; margin: 0; text-wrap: balance; max-width: 16ch; }
+  .masthead-meta { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .updated { font-size: 13px; color: var(--ink-muted); display: flex; align-items: center; gap: 8px; }
+  .updated .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+  .progress { min-width: 210px; }
+  .progress .bar { height: 7px; border-radius: 99px; background: var(--surface-2); overflow: hidden; border: 1px solid var(--hairline); }
+  .progress .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 99px; transition: width .5s ease; }
+  .progress .label { font-size: 12.5px; color: var(--ink-muted); margin-top: 6px; font-variant-numeric: tabular-nums; }
+
+  .theme-toggle { border: 1px solid var(--hairline-strong); background: var(--surface); color: var(--ink-muted); border-radius: 99px; height: 34px; padding: 0 14px; font: inherit; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--ink-faint); }
+  .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* ---------- KPI cards ---------- */
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 26px 0 8px; }
+  @media (max-width: 620px) { .kpis { grid-template-columns: 1fr; } }
+  .kpi { position: relative; background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 18px 18px 16px; box-shadow: var(--shadow); overflow: hidden; }
+  .kpi::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--kc); }
+  .kpi .name { display: flex; align-items: center; gap: 9px; font-weight: 600; font-size: 15px; }
+  .kpi .swatch { width: 11px; height: 11px; border-radius: 3px; background: var(--kc); flex: none; }
+  .kpi .num { font-family: var(--font-display); font-size: clamp(38px, 6vw, 52px); font-weight: 600; line-height: 1; margin: 10px 0 2px; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+  .kpi .sub { font-size: 12.5px; color: var(--ink-muted); }
+  .kpi[data-c="jackson"] { --kc: var(--c-jackson); }
+  .kpi[data-c="bellows"] { --kc: var(--c-bellows); }
+  .kpi[data-c="shah"] { --kc: var(--c-shah); }
+  .aux-note { font-size: 12.5px; color: var(--ink-muted); margin: 4px 2px 0; }
+
+  /* ---------- Main grid ---------- */
+  .grid { display: grid; grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); gap: 22px; margin-top: 26px; align-items: start; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+  .panel { background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius); box-shadow: var(--shadow); }
+  .panel > .phead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 16px 18px 12px; border-bottom: 1px solid var(--hairline); }
+  .phead h2 { font-family: var(--font-display); font-size: 18px; font-weight: 600; margin: 0; letter-spacing: -.01em; }
+  .phead .hint { font-size: 12px; color: var(--ink-faint); }
+
+  /* ---------- Map ---------- */
+  .map-wrap { padding: 12px 14px 6px; }
+  .map-wrap svg { width: 100%; height: auto; display: block; }
+  .map-wrap svg path { stroke: var(--surface); stroke-width: 1.1; stroke-linejoin: round; cursor: pointer; transition: fill .35s ease, opacity .15s ease; }
+  .map-wrap svg path:hover { opacity: .82; }
+  .map-wrap svg path.sel { stroke: var(--ink); stroke-width: 1.8; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 6px 18px 16px; font-size: 12.5px; color: var(--ink-muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 12px; height: 12px; border-radius: 3px; }
+
+  /* ---------- Table ---------- */
+  .tbl-scroll { overflow-x: auto; padding: 4px 4px 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th, td { padding: 9px 12px; text-align: right; white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); }
+  thead th { font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-muted); font-weight: 600; border-bottom: 1.5px solid var(--hairline-strong); cursor: pointer; user-select: none; }
+  thead th:hover { color: var(--ink); }
+  thead th .arw { opacity: 0; margin-left: 3px; font-size: 10px; }
+  thead th.sorted .arw { opacity: 1; }
+  tbody td { border-bottom: 1px solid var(--hairline); font-variant-numeric: tabular-nums; }
+  tbody tr:hover td { background: var(--surface-2); }
+  tbody tr:hover td:first-child { background: var(--surface-2); }
+  tbody tr.pending td { color: var(--ink-faint); font-style: italic; }
+  tbody td.lead { font-weight: 700; }
+  td .cdot { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 7px; vertical-align: middle; }
+  tfoot td { padding: 11px 12px; border-top: 1.5px solid var(--hairline-strong); font-weight: 700; font-variant-numeric: tabular-nums; }
+  tfoot td:first-child { background: var(--surface); }
+  .county-cell { display: inline-flex; align-items: center; }
+
+  /* ---------- Tooltip ---------- */
+  #tip { position: fixed; z-index: 40; pointer-events: none; background: var(--ink); color: var(--bg); padding: 9px 11px; border-radius: 9px; font-size: 12.5px; line-height: 1.45; box-shadow: 0 6px 24px rgba(0,0,0,.28); opacity: 0; transform: translateY(4px); transition: opacity .12s ease, transform .12s ease; max-width: 240px; }
+  #tip.on { opacity: 1; transform: translateY(0); }
+  #tip b { font-size: 13px; }
+  #tip .row { display: flex; justify-content: space-between; gap: 14px; font-variant-numeric: tabular-nums; }
+  #tip .row i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; margin-right: 6px; }
+
+  /* ---------- Footer ---------- */
+  footer { margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--hairline); font-size: 12.5px; color: var(--ink-muted); }
+  footer p { margin: 0 0 8px; max-width: 78ch; }
+  footer .caveat { color: var(--ink-faint); }
+  a { color: var(--accent); }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div>
+      <p class="eyebrow">Maine Democratic Party · U.S. Senate Primary</p>
+      <h1>Convention Delegate Tracker</h1>
+    </div>
+    <div class="masthead-meta">
+      <button class="theme-toggle" id="themeBtn" aria-label="Toggle color theme">
+        <span id="themeIcon">◐</span><span id="themeLabel">Theme</span>
+      </button>
+      <div class="updated"><span class="dot"></span><span>Updated <b id="updated">—</b></span></div>
+      <div class="progress">
+        <div class="bar"><i id="progBar" style="width:0%"></i></div>
+        <div class="label"><b id="repCount">0</b> of 16 counties reporting</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="kpis" id="kpis" aria-label="Delegate totals by candidate"></section>
+  <p class="aux-note" id="auxNote"></p>
+
+  <div class="grid">
+    <section class="panel" aria-label="Map of leading candidate by county">
+      <div class="phead"><h2>Who leads, by county</h2><span class="hint">hover a county</span></div>
+      <div class="map-wrap" id="mapWrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 760" role="img" aria-label="Map of Maine counties">
+  <path id="county-androscoggin" data-county="Androscoggin" d="M177.5,598.2L160.4,590.4L150.5,579.9L144.9,588.3L131.5,580.9L141.7,561.0L148.3,551.6L149.3,552.0L156.2,526.7L154.9,519.4L155.9,518.0L155.2,514.0L159.3,511.0L163.6,507.9L171.9,506.4L175.2,523.3L178.2,538.6L178.1,552.4L187.5,556.6L185.6,558.5L183.6,564.8L186.2,565.7L180.8,587.6L181.4,588.1L181.4,588.5L182.6,589.6L182.8,590.1L177.5,598.2Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-aroostook" data-county="Aroostook" d="M367.3,327.4L366.9,196.3L337.1,196.2L337.1,194.1L322.8,194.1L322.5,165.2L218.9,164.9L184.1,165.0L187.1,145.1L207.7,115.7L236.7,74.8L276.1,20.0L285.1,21.8L295.6,24.5L297.1,25.4L298.2,28.5L298.4,29.3L297.3,30.1L297.2,30.2L297.4,32.2L296.9,32.4L296.6,32.4L295.8,33.9L296.2,53.2L297.3,55.1L298.1,55.8L304.0,59.2L308.7,61.5L310.4,62.8L313.4,66.0L318.9,63.6L333.9,56.0L350.3,48.3L362.5,46.5L375.5,37.0L378.7,36.3L384.4,36.2L389.5,37.3L391.4,38.2L399.5,43.8L422.3,62.6L422.7,63.1L423.0,65.4L424.5,68.2L429.9,75.8L434.8,80.1L438.3,81.9L441.3,84.1L441.4,85.0L441.4,133.6L441.4,134.8L442.2,213.1L442.4,268.2L443.8,274.9L444.3,286.7L444.4,288.3L442.4,288.9L440.0,291.0L439.4,292.4L438.1,309.0L439.6,311.2L411.6,317.8L369.8,328.7L369.4,328.8L367.3,327.8L367.3,327.4Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-cumberland" data-county="Cumberland" d="M173.0,627.3L173.8,627.2L175.6,625.8L175.8,626.5L175.2,628.3L174.4,629.6L174.2,630.2L174.2,631.6L172.5,633.9L171.9,633.9L170.9,632.2L170.8,630.7L172.2,628.2L173.0,627.3Z M167.1,641.2L167.1,641.2L164.9,644.5L163.1,646.1L162.9,646.1L162.5,644.7L163.7,641.3L165.1,639.5L165.5,639.4L167.1,641.2Z M165.3,638.1L165.2,638.7L164.6,639.6L162.9,641.3L162.5,641.5L162.2,641.3L162.1,640.7L162.6,639.1L163.5,637.6L164.2,637.0L164.8,637.0L165.3,638.1Z M167.9,636.5L168.7,636.1L170.0,634.9L171.2,635.1L169.0,638.3L167.4,639.3L167.2,639.2L166.8,637.9L167.1,637.3L167.9,636.5Z M176.7,635.2L176.0,636.6L175.3,636.0L173.4,638.0L173.2,637.9L173.2,637.4L173.4,637.0L175.2,634.2L175.8,633.7L176.1,633.5L176.2,633.7L175.6,635.1L176.2,635.5L176.7,635.2Z M118.2,580.9L131.5,580.9L144.9,588.3L150.5,579.9L160.4,590.4L177.5,598.2L182.8,590.1L189.5,600.0L203.3,595.2L199.8,622.6L197.9,623.4L196.5,622.9L195.2,622.1L192.7,624.4L192.2,624.0L191.6,624.1L188.8,626.9L188.0,628.1L187.4,630.6L187.7,630.8L187.6,631.2L186.6,632.3L186.0,632.4L186.2,630.7L186.7,629.7L186.9,628.6L186.6,627.9L182.0,629.0L182.1,627.8L182.8,625.6L183.8,623.8L186.2,620.9L187.0,619.1L186.9,618.0L186.5,616.9L185.5,617.1L183.8,615.2L183.8,614.1L184.1,613.2L186.0,611.6L186.5,611.0L186.5,610.2L185.7,609.1L184.6,609.2L184.2,609.6L183.1,610.7L180.6,614.2L180.7,615.3L179.3,616.7L179.1,615.6L177.5,615.6L174.4,617.3L170.3,620.2L169.1,621.9L169.1,623.0L166.5,625.3L166.3,624.6L166.9,623.2L166.6,622.6L164.9,623.5L164.4,624.4L164.0,626.5L164.4,627.7L164.4,628.3L161.7,631.9L161.5,632.6L161.9,633.9L161.8,634.4L160.5,634.9L160.1,634.4L157.8,638.0L157.5,639.0L157.7,639.3L158.3,639.8L158.9,640.2L159.2,640.8L159.1,641.0L158.9,641.2L159.0,641.9L161.1,645.2L162.5,647.4L161.8,652.1L162.1,653.1L163.6,653.8L164.1,657.3L163.0,658.5L161.8,658.6L161.5,657.8L160.1,657.9L158.6,659.5L156.6,659.2L155.4,657.7L152.3,659.7L151.3,660.7L147.4,661.3L146.2,662.1L146.1,662.1L130.1,650.5L134.1,644.6L123.4,632.6L110.8,633.4L111.6,620.9L96.6,616.5L102.7,597.8L100.7,595.0L104.4,592.4L92.1,573.5L114.9,558.1L119.1,566.1L118.2,580.9Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-franklin" data-county="Franklin" d="M194.8,486.2L193.2,498.1L183.3,502.9L181.9,506.7L171.9,506.4L163.6,507.9L159.3,511.0L154.4,503.5L154.5,492.9L123.4,486.2L128.0,483.5L116.0,455.9L98.2,466.3L91.0,379.9L93.7,369.2L93.8,360.6L91.9,358.5L91.7,357.0L94.8,353.0L96.8,351.9L99.9,352.5L101.1,353.6L101.1,355.1L102.7,357.1L104.7,358.6L110.8,360.7L111.7,360.8L113.7,359.7L114.6,355.9L113.6,352.5L111.9,349.9L110.3,349.3L108.9,348.4L104.3,342.8L103.5,339.4L103.7,338.2L106.1,335.3L107.7,332.5L107.5,330.2L110.9,326.5L121.7,315.3L123.3,314.2L138.6,398.9L151.3,395.8L152.9,404.5L168.4,401.5L174.1,431.1L169.6,439.5L171.8,446.9L183.0,444.7L187.2,475.3L194.8,486.2Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-hancock" data-county="Hancock" d="M359.6,565.8L360.4,567.0L360.5,568.1L359.2,569.8L357.6,569.2L357.4,567.6L358.3,565.7L358.8,565.3L359.6,565.8Z M375.9,565.7L376.5,565.2L377.2,565.2L379.1,568.0L379.0,568.5L378.2,569.5L375.1,569.5L373.8,567.8L373.8,567.5L373.9,567.1L375.1,565.8L375.9,565.7Z M364.9,555.0L366.7,555.3L368.3,554.9L369.2,555.5L370.1,557.3L372.8,560.8L371.5,563.1L367.9,566.6L366.6,567.1L365.5,565.6L365.6,564.3L364.5,562.4L361.9,561.9L361.3,562.2L359.9,562.1L359.3,561.2L359.5,559.9L360.1,559.5L362.5,556.4L364.9,555.0Z M338.7,540.4L339.4,540.3L340.2,540.9L341.3,542.2L345.3,544.3L346.7,546.1L347.4,548.4L346.6,552.1L345.2,553.8L345.1,554.3L345.8,555.1L345.9,555.6L345.9,556.5L343.1,560.3L342.0,561.0L340.0,561.3L339.8,563.4L339.4,563.7L338.6,563.5L338.1,562.0L337.4,561.0L336.4,560.2L335.4,560.1L335.0,559.9L334.6,559.5L334.2,558.4L334.3,556.1L334.8,554.8L334.9,552.8L334.1,551.4L333.9,550.2L333.9,549.5L334.4,548.7L335.2,548.7L336.5,547.8L337.2,545.4L338.8,543.2L339.1,542.1L339.1,541.1L338.7,540.4Z M376.2,553.5L378.8,552.2L379.8,552.5L380.7,553.4L380.9,553.9L380.5,554.0L380.2,553.6L378.8,554.7L378.1,558.0L377.1,558.4L373.5,556.0L374.4,554.5L375.2,553.8L376.2,553.5Z M362.7,550.2L364.1,551.4L364.9,553.1L364.8,553.5L364.3,553.8L361.3,552.9L361.0,551.8L361.6,549.0L361.8,548.7L363.0,548.8L363.2,549.5L362.7,550.2Z M325.9,547.2L328.5,549.7L328.6,551.2L327.3,552.9L326.2,552.8L324.9,552.0L324.0,551.3L323.2,551.1L322.4,550.7L321.6,550.6L320.6,549.0L320.5,547.4L321.1,546.7L321.8,546.4L322.1,546.4L325.9,547.2Z M389.9,542.6L392.4,543.1L392.8,544.1L392.7,544.3L391.7,544.0L390.5,544.2L389.8,544.7L389.5,544.9L389.3,545.6L389.4,546.9L388.5,547.6L386.4,547.8L385.5,547.3L385.3,546.7L385.5,543.8L387.0,543.5L387.9,543.9L388.7,543.9L389.4,543.5L389.9,542.6Z M359.7,525.6L362.0,533.8L360.8,534.8L357.8,533.0L356.1,531.5L356.3,529.7L357.2,527.5L357.0,526.0L357.4,523.8L358.1,523.2L358.7,523.1L359.4,523.6L359.7,525.6Z M320.2,486.1L319.6,483.8L322.4,477.5L323.6,476.4L323.2,474.2L337.6,468.0L342.6,471.0L346.1,464.9L356.3,463.0L365.9,461.3L364.8,455.0L362.1,440.6L359.4,425.6L373.9,422.9L371.4,408.9L386.0,406.1L383.1,391.3L382.2,386.2L410.8,381.2L419.2,429.7L405.1,432.5L417.9,489.2L422.1,518.1L421.6,518.6L421.6,520.8L419.6,522.8L418.8,522.8L417.5,520.7L417.1,519.6L416.4,519.1L415.9,519.4L414.9,521.2L415.5,522.3L413.2,527.1L412.6,527.1L412.1,527.6L412.0,528.7L412.2,529.9L411.5,532.0L410.2,531.8L409.4,531.2L408.4,529.2L408.2,525.1L407.2,524.5L406.8,525.4L406.4,525.4L405.2,523.1L404.2,520.4L404.2,517.2L403.7,515.9L403.3,513.2L403.4,510.9L403.9,509.6L403.6,508.4L403.0,507.8L399.8,507.2L398.8,507.7L398.4,508.0L398.4,508.7L397.5,509.2L394.7,508.9L395.3,507.8L395.3,506.8L395.0,506.4L392.5,505.5L391.4,506.4L391.0,507.6L391.3,510.1L390.7,510.3L389.0,509.0L388.1,507.1L387.0,506.9L386.3,509.0L386.0,510.9L384.8,512.3L382.8,512.6L382.7,514.5L383.2,515.3L386.2,514.1L388.7,515.2L389.0,515.8L389.1,517.3L388.4,517.8L388.4,518.2L392.3,522.2L393.0,521.8L393.7,521.9L394.5,522.9L395.9,525.7L397.0,529.9L397.2,532.4L395.0,535.9L390.3,538.9L385.5,538.8L383.8,539.7L382.8,540.9L382.8,542.5L382.9,543.1L383.1,543.3L383.7,545.6L380.6,549.3L378.0,549.6L377.6,548.6L375.1,547.2L374.6,546.3L373.6,545.6L372.2,545.7L370.9,544.8L368.8,541.2L368.6,539.6L368.1,537.8L367.5,537.3L367.5,535.0L369.7,533.4L370.0,532.8L369.9,532.2L368.6,531.1L368.6,530.9L369.9,527.8L370.4,527.8L371.5,526.6L371.6,525.6L371.3,524.6L374.8,522.2L375.3,522.5L375.7,522.4L375.9,521.9L375.8,520.2L374.3,516.8L373.5,515.8L372.5,515.6L372.1,516.2L371.9,517.7L369.2,521.0L368.6,521.3L367.9,521.2L367.2,520.4L367.3,516.3L367.7,514.3L366.6,512.8L365.6,512.6L364.7,512.9L364.2,513.6L363.7,514.7L364.3,518.7L363.7,521.0L363.7,522.1L364.0,523.0L364.0,524.2L363.5,524.4L362.1,524.3L361.5,522.6L361.8,521.1L362.7,520.0L361.8,515.3L361.2,515.1L360.2,515.8L359.6,518.3L358.9,518.8L357.9,518.5L356.1,520.8L355.6,521.0L353.2,520.1L352.5,520.2L352.1,520.8L351.9,521.6L352.1,523.1L352.7,524.9L353.8,525.3L354.3,528.0L353.4,529.5L352.3,531.6L351.9,534.2L351.9,534.9L352.2,535.7L353.1,536.9L355.1,537.0L355.9,538.6L355.8,539.3L356.3,540.9L357.3,542.8L357.3,543.5L356.1,545.3L356.3,546.6L356.9,547.5L356.6,548.9L355.6,548.6L353.7,547.4L353.7,547.1L352.3,545.5L351.2,544.8L347.7,541.2L346.2,541.1L345.0,540.2L344.9,539.6L344.6,539.3L338.5,537.2L333.6,533.5L332.7,532.4L331.2,531.9L329.4,532.2L328.9,532.6L328.3,533.7L325.6,535.7L321.9,535.0L321.7,534.3L322.1,531.4L322.6,528.9L323.0,528.3L323.3,526.9L322.9,524.7L322.5,519.2L323.2,516.1L324.8,515.0L326.6,510.4L326.9,508.6L325.4,509.0L320.2,486.1Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-kennebec" data-county="Kennebec" d="M210.7,491.7L212.6,486.6L216.2,487.5L216.5,488.2L232.2,491.7L235.3,483.5L229.6,476.2L229.1,471.8L247.6,472.7L247.2,475.4L251.0,476.1L248.9,478.8L248.9,480.2L256.7,481.3L256.4,511.3L251.8,510.5L250.7,510.2L243.6,530.0L241.9,540.2L241.1,541.0L240.4,541.6L240.4,542.4L239.5,543.1L238.9,543.4L227.1,540.4L225.3,548.9L226.3,565.6L226.3,566.1L225.2,565.8L214.6,563.3L214.0,561.1L203.5,558.7L198.6,568.5L186.2,565.7L183.6,564.8L185.6,558.5L187.5,556.6L178.1,552.4L178.2,538.6L175.2,523.3L171.9,506.4L181.9,506.7L183.3,502.9L193.2,498.1L194.8,486.2L210.7,491.7Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-knox" data-county="Knox" d="M315.8,608.5L315.5,610.9L316.2,612.9L315.0,615.2L313.7,615.4L313.6,615.3L314.2,613.7L314.1,611.7L313.7,610.7L313.0,610.9L312.5,610.7L313.2,607.6L314.7,606.5L315.8,608.5Z M296.9,585.2L293.0,590.4L291.3,589.5L294.8,583.7L296.5,583.8L296.9,585.2Z M345.9,584.1L344.0,583.0L342.6,583.7L342.1,584.5L342.0,585.5L341.5,585.5L341.1,583.5L341.1,582.4L341.4,582.1L342.2,579.6L341.7,576.4L340.9,573.7L344.8,571.7L345.1,570.9L346.0,570.3L346.9,570.6L347.7,571.9L349.2,573.8L349.7,573.8L349.9,574.6L349.4,576.1L349.1,576.5L347.9,576.6L346.7,582.0L346.8,583.9L346.2,584.5L345.9,584.1Z M326.7,577.4L326.1,577.3L324.2,580.3L322.9,580.9L321.7,580.9L317.8,582.0L316.5,582.0L314.7,580.8L313.5,575.2L312.9,573.5L311.9,572.2L312.6,568.9L312.5,568.1L308.5,568.2L308.4,567.7L309.4,564.8L311.5,561.9L314.8,560.0L315.9,558.9L319.6,556.2L322.1,555.6L322.8,556.6L322.4,556.9L322.4,557.7L322.9,559.8L325.9,562.2L326.5,562.6L327.0,562.3L327.2,562.7L325.9,563.7L324.8,563.6L322.9,563.7L322.7,564.0L322.6,564.8L322.8,566.1L323.2,567.2L324.2,567.1L326.1,570.9L327.1,572.3L328.2,573.3L328.4,574.7L327.4,576.7L326.7,577.4Z M264.9,557.8L241.1,541.0L241.9,540.2L243.6,530.0L256.5,530.0L262.0,535.7L271.0,526.5L288.0,544.3L298.7,545.4L298.6,545.4L297.3,547.9L296.9,549.3L297.0,550.9L296.0,554.1L295.9,555.3L295.7,558.1L294.9,559.0L293.0,559.1L292.8,559.8L292.6,560.5L292.8,562.6L293.3,564.9L292.7,566.8L290.4,569.0L290.3,570.8L291.4,572.1L291.7,572.2L293.2,571.3L295.5,570.6L296.1,570.6L297.0,571.0L298.3,573.2L296.3,575.9L296.1,575.8L296.1,575.0L295.5,574.8L294.6,574.7L294.2,575.1L292.8,577.1L293.5,578.6L292.6,579.4L291.1,579.7L288.9,581.4L287.5,582.9L287.2,583.3L287.6,584.9L287.2,585.2L284.8,586.4L283.2,586.3L282.4,586.8L279.6,590.1L279.2,591.4L279.6,592.7L279.4,594.2L278.5,595.6L277.3,596.7L274.6,597.3L274.0,598.3L272.0,599.0L271.4,597.0L271.2,595.3L269.7,593.1L269.4,593.0L269.3,592.9L268.7,593.0L266.5,595.4L265.8,595.5L265.1,595.1L266.8,593.2L266.9,592.3L264.9,591.0L269.5,582.4L264.9,557.8Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-lincoln" data-county="Lincoln" d="M266.5,623.1L266.6,622.9L267.1,623.0L267.4,623.4L267.3,624.0L265.8,625.9L264.8,626.1L264.7,625.6L265.0,624.5L265.8,623.3L266.5,623.1Z M252.7,597.8L253.2,598.7L253.3,599.6L253.2,599.9L251.5,600.9L251.2,600.9L251.1,599.8L252.0,594.4L252.5,594.6L253.5,596.2L252.7,597.8Z M241.1,541.0L264.9,557.8L269.5,582.4L264.9,591.0L263.8,590.3L261.4,590.3L259.7,591.9L258.7,591.9L257.3,592.0L256.1,590.7L254.0,589.8L252.6,593.0L252.2,591.9L251.7,591.5L251.1,592.0L250.0,595.6L249.0,601.9L246.3,605.7L246.0,607.5L244.0,612.7L242.7,613.7L242.5,612.8L242.9,611.5L242.0,607.6L241.5,606.5L239.3,605.5L238.7,605.8L238.5,606.1L238.6,607.0L239.2,608.8L238.3,612.1L237.7,612.2L236.5,611.6L236.0,611.6L235.7,612.0L235.3,615.0L234.2,615.8L232.4,616.6L232.2,616.4L232.3,614.6L233.0,614.7L233.7,613.8L234.1,610.5L233.5,609.2L232.3,609.4L231.3,611.5L231.4,612.7L231.1,613.7L230.4,614.5L229.4,612.8L229.4,611.7L228.8,611.3L227.1,612.9L226.7,616.0L227.0,618.2L226.7,620.3L225.4,620.3L223.0,616.2L223.0,615.5L222.2,614.9L221.7,614.7L221.6,614.8L221.7,613.5L222.5,611.7L222.3,609.5L216.3,603.6L221.3,585.0L208.3,581.9L214.6,563.3L225.2,565.8L226.3,566.1L226.3,565.6L225.3,548.9L227.1,540.4L238.9,543.4L239.5,543.1L240.4,542.4L240.4,541.6L241.1,541.0Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-oxford" data-county="Oxford" d="M118.2,580.9L119.1,566.1L114.9,558.1L92.1,573.5L104.4,592.4L100.7,595.0L102.7,597.8L96.6,616.5L72.9,620.1L72.9,620.1L72.5,604.7L72.4,600.2L71.5,570.9L71.5,570.9L70.6,543.8L70.6,543.8L70.4,539.5L70.1,530.3L68.3,486.3L67.3,462.5L64.7,419.3L62.9,385.8L61.9,372.5L68.1,371.3L70.0,370.7L70.6,370.3L71.3,368.8L71.0,368.2L72.7,367.5L77.3,367.7L81.1,371.4L81.7,373.9L81.5,374.6L82.2,378.4L83.5,382.9L84.9,384.1L88.1,385.0L89.7,384.1L90.1,383.6L91.0,379.9L98.2,466.3L116.0,455.9L128.0,483.5L123.4,486.2L154.5,492.9L154.4,503.5L159.3,511.0L155.2,514.0L155.9,518.0L154.9,519.4L156.2,526.7L149.3,552.0L148.3,551.6L141.7,561.0L131.5,580.9L118.2,580.9Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-penobscot" data-county="Penobscot" d="M323.2,474.2L300.3,476.2L280.8,480.7L278.3,466.7L271.2,468.0L266.8,439.5L261.0,410.5L275.2,407.7L318.5,399.1L315.7,385.7L327.8,383.2L324.9,368.6L318.4,336.2L306.0,338.6L306.7,314.1L321.9,310.4L322.8,194.1L337.1,194.1L337.1,196.2L366.9,196.3L367.3,327.4L367.3,327.8L369.4,328.8L369.8,328.7L411.6,317.8L424.1,378.7L410.8,381.2L382.2,386.2L383.1,391.3L386.0,406.1L371.4,408.9L373.9,422.9L359.4,425.6L362.1,440.6L364.8,455.0L365.9,461.3L356.3,463.0L346.1,464.9L342.6,471.0L337.6,468.0L323.2,474.2Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-piscataquis" data-county="Piscataquis" d="M275.2,407.7L261.0,410.5L244.4,413.7L230.4,420.7L212.1,333.7L222.3,316.9L206.0,301.6L211.6,294.0L217.6,298.8L220.7,282.7L227.5,281.2L223.2,261.5L218.1,262.6L217.6,194.4L218.9,164.9L322.5,165.2L322.8,194.1L321.9,310.4L306.7,314.1L306.0,338.6L318.4,336.2L324.9,368.6L327.8,383.2L315.7,385.7L318.5,399.1L275.2,407.7Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-sagadahoc" data-county="Sagadahoc" d="M180.8,587.6L186.2,565.7L198.6,568.5L203.5,558.7L214.0,561.1L214.6,563.3L208.3,581.9L221.3,585.0L216.3,603.6L222.3,609.5L222.5,611.7L221.7,613.5L221.6,614.8L220.7,615.1L219.6,617.2L219.3,618.7L219.4,620.1L219.1,621.0L215.3,626.1L214.3,625.9L212.1,626.1L211.9,626.4L211.9,626.8L212.3,627.5L212.3,627.9L205.8,631.8L205.4,634.4L203.9,634.6L203.5,634.4L203.2,631.3L203.4,629.9L203.0,628.6L201.9,628.2L202.7,625.6L201.8,622.8L200.1,622.4L199.8,622.6L203.3,595.2L189.5,600.0L182.8,590.1L182.6,589.6L181.4,588.5L181.4,588.1L180.8,587.6Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-somerset" data-county="Somerset" d="M229.1,471.8L229.6,476.2L235.3,483.5L232.2,491.7L216.5,488.2L216.2,487.5L212.6,486.6L210.7,491.7L194.8,486.2L187.2,475.3L183.0,444.7L171.8,446.9L169.6,439.5L174.1,431.1L168.4,401.5L152.9,404.5L151.3,395.8L138.6,398.9L123.3,314.2L132.7,307.7L134.8,307.2L141.0,298.6L139.8,295.9L138.7,292.5L141.1,291.1L140.9,290.9L141.0,290.3L142.1,288.5L144.5,285.9L147.3,283.0L151.3,281.9L154.1,279.8L156.5,277.2L157.6,274.7L159.1,268.1L157.7,266.3L156.2,265.0L150.8,263.5L150.7,256.2L151.0,248.3L153.4,243.4L154.0,242.7L157.7,241.5L159.4,234.7L154.8,230.2L153.3,228.4L153.1,227.5L162.9,204.6L165.1,201.6L166.7,200.2L171.4,198.5L180.3,190.7L184.1,165.0L218.9,164.9L217.6,194.4L218.1,262.6L223.2,261.5L227.5,281.2L220.7,282.7L217.6,298.8L211.6,294.0L206.0,301.6L222.3,316.9L212.1,333.7L230.4,420.7L244.4,413.7L261.0,410.5L266.8,439.5L271.2,468.0L256.1,464.3L247.6,472.7L229.1,471.8Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-waldo" data-county="Waldo" d="M308.6,540.1L311.3,535.4L311.3,531.2L312.1,526.4L313.1,524.2L315.9,522.9L317.1,523.7L318.0,526.5L317.6,528.0L316.8,529.7L315.4,530.8L314.8,530.8L314.3,531.4L313.9,533.4L314.9,536.5L313.6,539.7L313.0,540.3L311.5,546.4L310.4,548.0L308.2,550.0L307.5,550.3L308.1,549.0L307.1,546.2L306.6,545.6L305.9,545.3L305.8,544.9L306.0,543.7L307.3,541.6L308.6,540.1Z M300.3,476.2L323.2,474.2L323.6,476.4L322.4,477.5L319.6,483.8L320.2,486.1L325.4,509.0L323.8,509.4L321.6,510.5L318.2,513.3L315.8,516.1L315.0,515.6L314.5,514.5L314.3,513.6L314.4,513.3L313.8,512.4L313.4,512.1L310.3,512.8L309.8,514.3L308.1,515.9L304.0,516.4L303.0,518.2L303.8,521.2L304.4,522.9L305.7,523.8L306.5,524.7L307.9,527.9L307.2,533.1L306.7,534.7L304.4,537.6L301.5,537.9L301.4,541.3L300.0,544.1L298.7,545.4L288.0,544.3L271.0,526.5L262.0,535.7L256.5,530.0L243.6,530.0L250.7,510.2L251.8,510.5L256.4,511.3L256.7,481.3L248.9,480.2L248.9,478.8L251.0,476.1L247.2,475.4L247.6,472.7L256.1,464.3L271.2,468.0L278.3,466.7L280.8,480.7L300.3,476.2Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-washington" data-county="Washington" d="M460.9,501.1L461.4,500.7L464.6,501.7L465.3,502.1L464.5,504.2L464.3,505.3L465.5,506.3L467.5,508.9L466.8,511.6L466.5,511.9L466.2,512.2L464.6,512.5L464.1,511.1L462.7,504.0L462.4,503.7L461.5,503.7L461.0,503.3L460.9,501.1Z M439.6,311.2L439.8,311.6L445.5,313.2L457.9,322.1L467.7,325.1L472.6,326.3L474.8,326.4L475.8,325.7L476.1,325.2L475.8,324.5L475.9,324.1L477.4,323.6L479.9,323.5L480.5,323.8L483.3,327.7L483.5,328.9L483.9,332.4L483.3,340.2L480.6,338.9L478.9,339.3L474.3,342.5L477.8,352.9L479.3,353.8L482.8,358.2L483.7,360.4L482.9,366.2L479.3,373.2L478.7,373.9L476.4,374.8L476.0,376.5L478.9,382.5L485.7,395.4L491.5,401.2L492.6,401.8L493.2,401.9L497.1,398.8L497.5,396.1L498.9,391.8L499.7,391.1L501.1,391.2L513.8,395.8L517.5,400.9L519.4,404.1L521.9,411.2L520.1,411.7L518.8,413.2L520.8,415.1L522.9,417.6L523.7,419.3L524.0,421.1L524.5,422.3L526.0,424.7L527.9,431.4L528.5,432.3L532.1,435.8L533.4,435.9L534.1,436.8L534.2,438.3L534.0,439.3L533.6,439.4L533.4,441.7L534.5,444.9L534.9,445.9L533.1,447.2L532.7,447.9L533.9,451.8L535.2,452.7L536.2,452.1L537.8,451.9L538.1,452.4L538.0,452.8L536.8,454.0L535.8,454.3L535.1,453.9L534.7,454.0L533.6,455.4L532.9,456.7L530.0,459.9L529.3,460.4L527.3,460.9L526.0,459.9L525.2,460.2L525.0,462.0L523.9,464.7L522.7,465.0L521.7,464.6L520.9,464.8L520.4,468.7L517.5,472.3L516.3,472.6L515.3,474.2L514.5,476.6L514.5,476.8L512.8,477.8L511.4,477.5L510.8,477.7L510.2,478.9L510.3,480.1L510.5,480.5L507.8,481.5L505.3,481.9L503.9,481.1L503.4,481.3L500.8,483.6L500.4,485.0L500.9,486.2L500.2,486.8L498.5,488.1L497.5,488.4L496.1,488.2L495.1,486.4L495.2,485.9L496.5,485.8L498.5,482.3L498.6,480.0L498.0,479.0L496.7,478.2L496.9,473.0L497.8,472.1L497.9,470.6L496.8,470.4L492.3,471.7L491.3,471.7L488.9,474.5L488.4,476.6L488.7,477.2L489.3,477.6L490.0,479.4L490.5,482.7L489.9,483.9L488.8,484.7L487.8,483.5L487.6,483.6L486.7,485.8L486.4,487.5L485.6,488.9L484.9,488.4L484.1,487.4L483.9,486.7L483.0,486.4L481.2,487.0L480.8,487.4L480.7,487.9L479.6,488.3L475.6,485.0L475.5,483.2L474.1,481.9L472.1,482.5L472.0,483.6L471.2,484.4L470.8,484.4L470.1,483.6L469.7,483.6L468.9,484.4L468.7,484.7L466.1,494.4L466.7,495.0L467.6,497.9L466.9,499.2L457.6,500.1L457.1,500.1L456.7,498.4L456.2,498.2L453.3,498.2L452.1,498.8L451.4,499.7L451.8,501.7L451.3,503.5L450.1,505.1L449.1,504.5L447.8,504.9L446.7,504.7L446.8,503.3L447.1,502.8L446.8,500.0L445.5,497.2L444.9,496.7L444.0,496.4L443.2,496.5L442.6,497.2L442.3,498.7L442.3,500.9L440.5,500.9L439.9,500.4L439.6,499.4L439.6,498.3L439.2,497.1L436.8,494.9L435.6,494.7L435.1,495.1L434.9,495.9L435.2,497.3L433.7,500.4L434.0,504.7L434.3,505.5L434.2,506.8L433.8,507.8L433.2,508.0L432.5,508.9L432.3,510.0L432.3,511.4L434.2,516.0L434.2,516.7L433.8,517.5L432.3,516.6L431.1,514.8L430.1,515.3L430.1,516.4L429.6,519.1L428.7,521.6L427.3,517.5L427.1,515.7L426.2,515.3L425.6,515.5L425.2,515.9L425.5,517.2L425.0,518.7L424.5,518.8L423.2,518.1L422.3,518.0L422.1,518.1L417.9,489.2L405.1,432.5L419.2,429.7L410.8,381.2L424.1,378.7L411.6,317.8L439.6,311.2Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+  <path id="county-york" data-county="York" d="M125.0,694.8L123.0,697.1L122.0,698.9L119.4,705.6L118.4,709.0L118.7,710.8L120.5,713.5L120.4,714.1L119.1,717.1L115.5,723.0L113.7,728.9L113.7,729.8L113.3,731.1L111.4,733.5L111.3,733.7L111.2,734.5L110.1,737.3L109.3,738.3L105.7,740.0L99.7,736.7L96.5,733.6L92.4,729.6L91.4,728.6L90.8,725.7L91.3,720.2L91.4,719.2L92.8,711.3L92.6,710.9L92.6,710.8L92.0,710.5L92.0,710.4L91.8,710.3L91.6,710.3L91.4,710.2L90.8,710.0L90.1,708.8L90.1,708.6L87.4,706.4L87.4,706.4L82.0,699.6L81.7,699.3L81.2,697.8L79.6,695.8L77.1,695.1L75.4,693.5L73.4,688.2L73.4,688.1L73.0,685.7L73.1,682.0L75.7,672.3L75.7,672.3L75.8,671.8L76.8,666.3L75.9,662.3L76.3,661.8L76.8,661.2L76.8,661.3L77.0,659.3L74.8,656.4L73.9,639.6L73.8,637.8L73.7,635.1L73.7,634.9L73.7,633.3L73.7,632.8L72.9,620.1L96.6,616.5L111.6,620.9L110.8,633.4L123.4,632.6L134.1,644.6L130.1,650.5L146.1,662.1L145.2,663.2L143.1,666.8L142.5,668.6L142.4,670.1L142.7,672.9L143.0,673.8L143.9,675.3L146.5,677.4L145.1,677.9L144.1,678.7L142.5,681.2L142.6,682.2L141.8,683.9L140.7,684.3L140.5,684.1L140.0,684.1L138.3,685.0L137.5,686.1L137.9,687.6L137.8,688.2L135.8,691.4L133.7,693.6L133.1,694.1L132.3,693.5L130.9,693.1L127.2,693.5L125.1,694.6L125.0,694.8Z" fill="currentColor" stroke="#ffffff" stroke-width="1.5" />
+</svg>
+      </div>
+      <div class="legend" id="legend"></div>
+    </section>
+
+    <section class="panel" aria-label="Delegate standings table">
+      <div class="phead"><h2>Standings</h2><span class="hint">click a column to sort</span></div>
+      <div class="tbl-scroll">
+        <table id="tbl">
+          <thead><tr id="thead"></tr></thead>
+          <tbody id="tbody"></tbody>
+          <tfoot><tr id="tfoot"></tr></tfoot>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p><b>How this is counted.</b> Attribution is <b>inferred</b>: county results list who was elected but not whom they support, so each winner is matched by name to the campaigns' published delegate slates. Someone on exactly one slate is credited to that candidate; on two or more they are counted as <b>Ambiguous</b> (never credited to anyone); on no slate as <b>Unmatched</b> (e.g. automatic/ex-officio delegates). Alternates are excluded.</p>
+    <p class="caveat">Campaign slates change over time and are re-checked each update. Not an official pledge count. Totals cover only counties that have reported.</p>
+  </footer>
+</div>
+
+<div id="tip" role="status" aria-live="polite"></div>
+
+<script type="application/json" id="data">
+{
+  "updated": "2026-07-18T23:12:46Z",
+  "candidates": { "jackson": "Troy Jackson", "bellows": "Shenna Bellows", "shah": "Nirav Shah" },
+  "counties": [
+    { "name": "Androscoggin", "reporting": true, "jackson": 26, "bellows": 1, "shah": 0, "ambiguous": 2, "unmatched": 2, "seats": 31 },
+    { "name": "Aroostook", "reporting": false },
+    { "name": "Cumberland", "reporting": false },
+    { "name": "Franklin", "reporting": true, "jackson": 6, "bellows": 0, "shah": 0, "ambiguous": 0, "unmatched": 3, "seats": 9 },
+    { "name": "Hancock", "reporting": true, "jackson": 22, "bellows": 0, "shah": 0, "ambiguous": 0, "unmatched": 1, "seats": 23 },
+    { "name": "Kennebec", "reporting": true, "jackson": 37, "bellows": 0, "shah": 0, "ambiguous": 3, "unmatched": 0, "seats": 40 },
+    { "name": "Knox", "reporting": false },
+    { "name": "Lincoln", "reporting": true, "jackson": 7, "bellows": 1, "shah": 3, "ambiguous": 0, "unmatched": 4, "seats": 15 },
+    { "name": "Oxford", "reporting": false },
+    { "name": "Penobscot", "reporting": true, "jackson": 44, "bellows": 0, "shah": 0, "ambiguous": 0, "unmatched": 0, "seats": 44 },
+    { "name": "Piscataquis", "reporting": false },
+    { "name": "Sagadahoc", "reporting": false },
+    { "name": "Somerset", "reporting": false },
+    { "name": "Waldo", "reporting": false },
+    { "name": "Washington", "reporting": true, "jackson": 1, "bellows": 2, "shah": 2, "ambiguous": 3, "unmatched": 0, "seats": 8 },
+    { "name": "York", "reporting": false }
+  ]
+}
+</script>
+
+<script>
+(function () {
+  "use strict";
+  var DATA = JSON.parse(document.getElementById("data").textContent);
+  var CANDS = ["jackson", "bellows", "shah"];
+  var CVAR = { jackson: "--c-jackson", bellows: "--c-bellows", shah: "--c-shah" };
+  var cssv = function (v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); };
+
+  /* ----- derive per-county leader ----- */
+  DATA.counties.forEach(function (c) {
+    if (!c.reporting) { c.leader = "none"; return; }
+    var best = -1, who = [], i, v;
+    for (i = 0; i < CANDS.length; i++) { v = c[CANDS[i]] || 0; if (v > best) { best = v; who = [CANDS[i]]; } else if (v === best) { who.push(CANDS[i]); } }
+    c.leader = best <= 0 ? "none" : (who.length > 1 ? "tie" : who[0]);
+    c.leaderWho = who;
+  });
+
+  /* ----- totals ----- */
+  var T = { jackson: 0, bellows: 0, shah: 0, ambiguous: 0, unmatched: 0, seats: 0 }, rep = 0;
+  DATA.counties.forEach(function (c) {
+    if (!c.reporting) return; rep++;
+    ["jackson", "bellows", "shah", "ambiguous", "unmatched", "seats"].forEach(function (k) { T[k] += (c[k] || 0); });
+  });
+
+  /* ----- masthead ----- */
+  function fmtUpdated(iso) {
+    var d = new Date(iso);
+    var opt = { month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: "America/New_York", timeZoneName: "short" };
+    try { return new Intl.DateTimeFormat("en-US", opt).format(d); } catch (e) { return iso; }
+  }
+  document.getElementById("updated").textContent = fmtUpdated(DATA.updated);
+  document.getElementById("repCount").textContent = rep;
+  document.getElementById("progBar").style.width = (rep / 16 * 100) + "%";
+
+  /* ----- KPI cards ----- */
+  var order = CANDS.slice().sort(function (a, b) { return T[b] - T[a]; });
+  var kpis = document.getElementById("kpis");
+  order.forEach(function (k) {
+    var el = document.createElement("div");
+    el.className = "kpi"; el.setAttribute("data-c", k);
+    el.innerHTML = '<div class="name"><span class="swatch"></span>' + DATA.candidates[k] + '</div>' +
+      '<div class="num">' + T[k] + '</div>' +
+      '<div class="sub">pledged delegates won</div>';
+    kpis.appendChild(el);
+  });
+  document.getElementById("auxNote").textContent =
+    "Plus " + T.ambiguous + " ambiguous (on multiple slates) and " + T.unmatched +
+    " unmatched (on no slate) — counted separately, credited to no one. " + T.seats + " seats decided so far.";
+
+  /* ----- legend ----- */
+  var legend = document.getElementById("legend");
+  var legItems = [["jackson", DATA.candidates.jackson], ["bellows", DATA.candidates.bellows], ["shah", DATA.candidates.shah], ["tie", "Tie / split"], ["none", "Not yet reporting"]];
+  legItems.forEach(function (it) {
+    var key = it[0];
+    var color = key === "tie" ? "var(--c-tie)" : key === "none" ? "var(--c-none)" : "var(" + CVAR[key] + ")";
+    var s = document.createElement("span");
+    s.innerHTML = '<i style="background:' + color + (key === "none" ? ";border:1px solid var(--c-none-stroke)" : "") + '"></i>' + it[1];
+    legend.appendChild(s);
+  });
+
+  /* ----- color the map ----- */
+  var byName = {};
+  DATA.counties.forEach(function (c) { byName[c.name.toLowerCase()] = c; });
+  function fillFor(leader) {
+    if (leader === "none") return "var(--c-none)";
+    if (leader === "tie") return "var(--c-tie)";
+    return "var(" + CVAR[leader] + ")";
+  }
+  function paintMap() {
+    var paths = document.querySelectorAll("#mapWrap svg path");
+    paths.forEach(function (p) {
+      var nm = (p.getAttribute("data-county") || "").toLowerCase();
+      var c = byName[nm];
+      p.style.fill = c ? fillFor(c.leader) : "var(--c-none)";
+      if (c && !c.reporting) p.style.stroke = "var(--c-none-stroke)";
+    });
+  }
+
+  /* ----- tooltip (shared by map + table) ----- */
+  var tip = document.getElementById("tip");
+  function tipHTML(c) {
+    if (!c.reporting) return "<b>" + c.name + " County</b><div class='row'>Not yet reporting</div>";
+    var rows = "";
+    CANDS.forEach(function (k) {
+      rows += "<div class='row'><span><i style='background:var(" + CVAR[k] + ")'></i>" + DATA.candidates[k] + "</span><span>" + (c[k] || 0) + "</span></div>";
+    });
+    if (c.ambiguous) rows += "<div class='row'><span>Ambiguous</span><span>" + c.ambiguous + "</span></div>";
+    if (c.unmatched) rows += "<div class='row'><span>Unmatched</span><span>" + c.unmatched + "</span></div>";
+    return "<b>" + c.name + " County</b> · " + c.seats + " seats" + rows;
+  }
+  function showTip(c, x, y) {
+    tip.innerHTML = tipHTML(c); tip.classList.add("on");
+    var r = tip.getBoundingClientRect();
+    var nx = Math.min(x + 14, window.innerWidth - r.width - 8);
+    var ny = Math.min(y + 14, window.innerHeight - r.height - 8);
+    tip.style.left = Math.max(8, nx) + "px"; tip.style.top = Math.max(8, ny) + "px";
+  }
+  function hideTip() { tip.classList.remove("on"); }
+
+  function wireMap() {
+    var paths = document.querySelectorAll("#mapWrap svg path");
+    paths.forEach(function (p) {
+      var nm = (p.getAttribute("data-county") || "").toLowerCase();
+      var c = byName[nm]; if (!c) return;
+      p.addEventListener("mousemove", function (e) { showTip(c, e.clientX, e.clientY); });
+      p.addEventListener("mouseleave", hideTip);
+    });
+  }
+
+  /* ----- table ----- */
+  var COLS = [
+    { k: "name", label: "County", num: false },
+    { k: "jackson", label: "Jackson", num: true }, { k: "bellows", label: "Bellows", num: true }, { k: "shah", label: "Shah", num: true },
+    { k: "ambiguous", label: "Amb.", num: true }, { k: "unmatched", label: "Unm.", num: true }, { k: "seats", label: "Seats", num: true }
+  ];
+  var sortState = { k: "seats", dir: -1 };
+  var thead = document.getElementById("thead");
+  COLS.forEach(function (col) {
+    var th = document.createElement("th");
+    th.textContent = col.label;
+    var arw = document.createElement("span"); arw.className = "arw"; th.appendChild(arw);
+    if (!col.num) th.style.textAlign = "left";
+    th.addEventListener("click", function () {
+      if (sortState.k === col.k) sortState.dir *= -1; else { sortState.k = col.k; sortState.dir = col.num ? -1 : 1; }
+      renderBody();
+    });
+    th.dataset.k = col.k;
+    thead.appendChild(th);
+  });
+
+  function renderBody() {
+    var tbody = document.getElementById("tbody"); tbody.innerHTML = "";
+    var rows = DATA.counties.slice().sort(function (a, b) {
+      var k = sortState.k;
+      if (k === "name") return a.name.localeCompare(b.name) * sortState.dir;
+      var av = a.reporting ? (a[k] || 0) : -1, bv = b.reporting ? (b[k] || 0) : -1;
+      if (av === bv) return a.name.localeCompare(b.name);
+      return (av - bv) * sortState.dir;
+    });
+    rows.forEach(function (c) {
+      var tr = document.createElement("tr");
+      if (!c.reporting) tr.className = "pending";
+      var lead = c.reporting ? c.leader : null;
+      var cells = COLS.map(function (col) {
+        if (col.k === "name") {
+          var dotc = c.reporting ? fillFor(c.leader) : "var(--c-none)";
+          return '<td><span class="county-cell"><span class="cdot" style="background:' + dotc + (c.reporting ? '' : ';border:1px solid var(--c-none-stroke)') + '"></span>' + c.name + '</span></td>';
+        }
+        if (!c.reporting) return '<td>' + (col.k === "seats" ? "—" : "—") + '</td>';
+        var v = c[col.k] || 0;
+        var isLead = (col.k === lead && (col.k === "jackson" || col.k === "bellows" || col.k === "shah"));
+        return '<td class="' + (isLead ? "lead" : "") + '">' + v + '</td>';
+      });
+      tr.innerHTML = cells.join("");
+      if (c.reporting) {
+        tr.addEventListener("mousemove", function (e) { showTip(c, e.clientX, e.clientY); });
+        tr.addEventListener("mouseleave", hideTip);
+      }
+      tbody.appendChild(tr);
+    });
+    thead.querySelectorAll("th").forEach(function (th) { th.classList.toggle("sorted", th.dataset.k === sortState.k); var a = th.querySelector(".arw"); if (a) a.textContent = sortState.dir < 0 ? "▼" : "▲"; });
+
+    var tfoot = document.getElementById("tfoot");
+    tfoot.innerHTML = COLS.map(function (col) {
+      if (col.k === "name") return '<td>Total (' + rep + ' reporting)</td>';
+      return '<td>' + T[col.k] + '</td>';
+    }).join("");
+  }
+
+  /* ----- theme toggle ----- */
+  var root = document.documentElement;
+  function currentTheme() { return root.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+  function syncThemeLabel() { var d = currentTheme() === "dark"; document.getElementById("themeIcon").textContent = d ? "☾" : "☀"; document.getElementById("themeLabel").textContent = d ? "Dark" : "Light"; }
+  document.getElementById("themeBtn").addEventListener("click", function () {
+    root.setAttribute("data-theme", currentTheme() === "dark" ? "light" : "dark");
+    syncThemeLabel(); paintMap();
+  });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () { if (!root.getAttribute("data-theme")) { syncThemeLabel(); paintMap(); } });
+
+  /* ----- init (map wired after SVG present) ----- */
+  function initMap() { if (document.querySelector("#mapWrap svg path")) { paintMap(); wireMap(); } }
+  syncThemeLabel();
+  renderBody();
+  initMap();
+  window.__reinitMap = initMap;
+})();
+</script>

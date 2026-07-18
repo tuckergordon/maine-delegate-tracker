@@ -1,0 +1,43 @@
+name: Update delegate data
+
+on:
+  schedule:
+    # Every 15 minutes.
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Scrape results and rewrite data island
+        run: python scripts/update.py
+
+      - name: Commit if changed
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -z "$(git status --porcelain index.html)" ]; then
+            echo "No change in index.html; nothing to commit."
+            exit 0
+          fi
+          git add index.html
+          git commit -m "Update delegate data ($(date -u +'%Y-%m-%dT%H:%MZ'))"
+          git push
