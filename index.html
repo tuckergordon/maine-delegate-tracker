@@ -117,7 +117,7 @@
 
   /* ---------- KPI cards ---------- */
   .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 26px 0 8px; }
-  @media (max-width: 620px) { .kpis { grid-template-columns: 1fr; } }
+  @media (max-width: 620px) { .kpis { grid-template-columns: minmax(0, 1fr); } }
   .kpi { position: relative; background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 18px 18px 16px; box-shadow: var(--shadow); overflow: hidden; }
   .kpi::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--kc); }
   .kpi .name { display: flex; align-items: center; gap: 9px; font-weight: 600; font-size: 15px; }
@@ -131,7 +131,7 @@
 
   /* ---------- Main grid ---------- */
   .grid { display: grid; grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); gap: 22px; margin-top: 26px; align-items: start; }
-  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr); } }
   .panel { background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius); box-shadow: var(--shadow); }
   .panel > .phead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 16px 18px 12px; border-bottom: 1px solid var(--hairline); }
   .phead h2 { font-family: var(--font-display); font-size: 18px; font-weight: 600; margin: 0; letter-spacing: -.01em; }
@@ -253,7 +253,7 @@
 
 <script type="application/json" id="data">
 {
-  "updated": "2026-07-18T23:34:27Z",
+  "updated": "2026-07-18T23:47:04Z",
   "candidates": { "jackson": "Troy Jackson", "bellows": "Shenna Bellows", "shah": "Nirav Shah" },
   "counties": [
     { "name": "Androscoggin", "reporting": true, "jackson": 26, "bellows": 1, "shah": 0, "ambiguous": 2, "unmatched": 2, "seats": 31 },
