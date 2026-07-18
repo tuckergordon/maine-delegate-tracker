@@ -1,5 +1,21 @@
-<title>Maine Democratic Senate Primary — Delegate Tracker</title>
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>Maine Dem Senate Primary — Delegate Tracker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Live tracker of pledged convention delegates won by Troy Jackson, Shenna Bellows, and Nirav Shah in the 2026 Maine Democratic U.S. Senate primary." />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://maine-delegate-results.tuckergordon.dev/" />
+<meta property="og:title" content="Maine Dem Senate Primary — Delegate Tracker" />
+<meta property="og:description" content="Live tracker of pledged convention delegates won by Troy Jackson, Shenna Bellows, and Nirav Shah in the 2026 Maine Democratic U.S. Senate primary." />
+<meta property="og:image" content="https://maine-delegate-results.tuckergordon.dev/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Maine Dem Senate Primary — Delegate Tracker" />
+<meta name="twitter:description" content="Live tracker of pledged convention delegates won by Troy Jackson, Shenna Bellows, and Nirav Shah in the 2026 Maine Democratic U.S. Senate primary." />
+<meta name="twitter:image" content="https://maine-delegate-results.tuckergordon.dev/og-image.png" />
 <style>
   /* ---------- Tokens ---------- */
   :root {
@@ -8,7 +24,7 @@
     --surface-2: #eef0ed;
     --ink: #1b211f;
     --ink-muted: #5c6663;
-    --ink-faint: #8a9490;
+    --ink-faint: #616e69;
     --hairline: #dde2de;
     --hairline-strong: #c9d0cb;
     --accent: #0b8f74;
@@ -37,7 +53,7 @@
       --surface-2: #1f2529;
       --ink: #e8ecea;
       --ink-muted: #93a09b;
-      --ink-faint: #6b7772;
+      --ink-faint: #828f8a;
       --hairline: #262d30;
       --hairline-strong: #333c40;
       --accent: #2ca890;
@@ -55,7 +71,7 @@
   /* explicit toggle wins over the media query in both directions */
   :root[data-theme="light"] {
     --bg: #f4f5f3; --surface: #fcfcfb; --surface-2: #eef0ed;
-    --ink: #1b211f; --ink-muted: #5c6663; --ink-faint: #8a9490;
+    --ink: #1b211f; --ink-muted: #5c6663; --ink-faint: #616e69;
     --hairline: #dde2de; --hairline-strong: #c9d0cb; --accent: #0b8f74;
     --c-jackson: #0b8f74; --c-bellows: #8e5cc4; --c-shah: #b9741a;
     --c-tie: #7f8a86; --c-none: #e4e7e4; --c-none-stroke: #cbd2cd;
@@ -63,7 +79,7 @@
   }
   :root[data-theme="dark"] {
     --bg: #101416; --surface: #171c1f; --surface-2: #1f2529;
-    --ink: #e8ecea; --ink-muted: #93a09b; --ink-faint: #6b7772;
+    --ink: #e8ecea; --ink-muted: #93a09b; --ink-faint: #828f8a;
     --hairline: #262d30; --hairline-strong: #333c40; --accent: #2ca890;
     --c-jackson: #2ca890; --c-bellows: #a97be0; --c-shah: #d2712b;
     --c-tie: #8b9691; --c-none: #232a2d; --c-none-stroke: #333c40;
@@ -149,6 +165,7 @@
   tfoot td { padding: 11px 12px; border-top: 1.5px solid var(--hairline-strong); font-weight: 700; font-variant-numeric: tabular-nums; }
   tfoot td:first-child { background: var(--surface); }
   .county-cell { display: inline-flex; align-items: center; }
+  .tbl-legend { font-size: 12.5px; color: var(--ink-muted); margin: 0; padding: 2px 18px 16px; }
 
   /* ---------- Tooltip ---------- */
   #tip { position: fixed; z-index: 40; pointer-events: none; background: var(--ink); color: var(--bg); padding: 9px 11px; border-radius: 9px; font-size: 12.5px; line-height: 1.45; box-shadow: 0 6px 24px rgba(0,0,0,.28); opacity: 0; transform: translateY(4px); transition: opacity .12s ease, transform .12s ease; max-width: 240px; }
@@ -222,6 +239,7 @@
           <tfoot><tr id="tfoot"></tr></tfoot>
         </table>
       </div>
+      <p class="tbl-legend"><b>Amb.</b> = Ambiguous (delegate's name is on more than one candidate's slate — credited to no one). <b>Unm.</b> = Unmatched (delegate's name isn't on any candidate's slate). Both are counted separately from the three candidates' totals.</p>
     </section>
   </div>
 
@@ -235,7 +253,7 @@
 
 <script type="application/json" id="data">
 {
-  "updated": "2026-07-18T23:15:16Z",
+  "updated": "2026-07-18T23:34:27Z",
   "candidates": { "jackson": "Troy Jackson", "bellows": "Shenna Bellows", "shah": "Nirav Shah" },
   "counties": [
     { "name": "Androscoggin", "reporting": true, "jackson": 26, "bellows": 1, "shah": 0, "ambiguous": 2, "unmatched": 2, "seats": 31 },
@@ -304,8 +322,8 @@
     kpis.appendChild(el);
   });
   document.getElementById("auxNote").textContent =
-    "Plus " + T.ambiguous + " ambiguous (on multiple slates) and " + T.unmatched +
-    " unmatched (on no slate) — counted separately, credited to no one. " + T.seats + " seats decided so far.";
+    "Plus " + T.ambiguous + " Ambiguous (name on more than one slate) and " + T.unmatched +
+    " Unmatched (name on no slate) — both counted separately and credited to no one. " + T.seats + " seats decided so far.";
 
   /* ----- legend ----- */
   var legend = document.getElementById("legend");
@@ -371,13 +389,16 @@
   var COLS = [
     { k: "name", label: "County", num: false },
     { k: "jackson", label: "Jackson", num: true }, { k: "bellows", label: "Bellows", num: true }, { k: "shah", label: "Shah", num: true },
-    { k: "ambiguous", label: "Amb.", num: true }, { k: "unmatched", label: "Unm.", num: true }, { k: "seats", label: "Seats", num: true }
+    { k: "ambiguous", label: "Amb.", num: true, title: "Ambiguous — delegate's name appears on more than one candidate's slate, so we can't credit one candidate." },
+    { k: "unmatched", label: "Unm.", num: true, title: "Unmatched — delegate's name isn't found on any candidate's published slate." },
+    { k: "seats", label: "Seats", num: true }
   ];
   var sortState = { k: "seats", dir: -1 };
   var thead = document.getElementById("thead");
   COLS.forEach(function (col) {
     var th = document.createElement("th");
     th.textContent = col.label;
+    if (col.title) th.title = col.title;
     var arw = document.createElement("span"); arw.className = "arw"; th.appendChild(arw);
     if (!col.num) th.style.textAlign = "left";
     th.addEventListener("click", function () {
