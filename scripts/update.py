@@ -447,6 +447,16 @@ def process_county(name: str, pdf_url: str, shah_html: str | None, bellows_html:
     bslate = parse_bellows_slate(bellows_html, name)
 
     if not jslate:
+        # TEMP DIAG v2: locate the first real <li><p> and show its context + distance
+        # to every "delegate slate" occurrence, to see why the window misses it.
+        first = re.search(r"<li><p>[^<]+</p></li>", jackson_html)
+        print(f"DIAG2 {name}: first real <li><p> at {first.start() if first else None}")
+        if first:
+            p = first.start()
+            print(f"DIAG2 {name}: ctx={jackson_html[max(0,p-400):p+200]!r}")
+            occs = [m.start() for m in re.finditer(r'delegate slate', jackson_html, re.I)]
+            near = [o for o in occs if 0 <= p - o <= 8000]
+            print(f"DIAG2 {name}: occ_count={len(occs)} occ_before_within8k={near} p_minus_min_occ={min((p-o for o in occs if o<=p), default=None)}")
         print(f"WARNING: {name}: could not parse a Jackson slate; leaving non-reporting")
         return None
     if not sslate:
