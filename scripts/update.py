@@ -29,6 +29,7 @@ Run from anywhere; index.html is located relative to this file, not the cwd.
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 import unicodedata
@@ -348,6 +349,46 @@ def replace_data_island(html: str, new_island: str) -> str:
     return html[: m.start()] + m.group(1) + new_island + m.group(3) + html[m.end():]
 
 
+# A second, independent JSON island holding per-delegate detail for the Sources view.
+# Kept entirely separate from the id="data" island above: the counts view and the cron
+# depend on that contract being untouched, so this only ADDS a parallel island.
+DELEGATES_ISLAND_RE = re.compile(
+    r'(<script type="application/json" id="delegates">\n)(.*?)(\n</script>)', re.DOTALL
+)
+
+
+def build_delegates_island(updated_iso: str, delegates: list[dict]) -> str:
+    """Emit the per-delegate island. Each record carries the delegate's name, county,
+    bucket (a candidate key, or "ambiguous"/"unmatched"), the county results PDF URL,
+    and the slate URL(s) whose match produced the attribution (empty for unmatched).
+
+    One compact line per delegate (mirrors the id="data" island's one-line-per-county
+    style) so the every-15-min cron rewrites a tidy diff rather than thousands of lines.
+    """
+    lines = ["{", '  "updated": "%s",' % updated_iso]
+    if delegates:
+        lines.append('  "delegates": [')
+        lines.append(",\n".join(
+            "    " + json.dumps(d, ensure_ascii=False) for d in delegates
+        ))
+        lines.append("  ]")
+    else:
+        lines.append('  "delegates": []')
+    lines.append("}")
+    return "\n".join(lines)
+
+
+def replace_delegates_island(html: str, new_island: str) -> str:
+    matches = list(DELEGATES_ISLAND_RE.finditer(html))
+    if len(matches) != 1:
+        raise RuntimeError(
+            f"Expected exactly one delegates island in index.html, found {len(matches)}. "
+            "Refusing to touch the file."
+        )
+    m = matches[0]
+    return html[: m.start()] + m.group(1) + new_island + m.group(3) + html[m.end():]
+
+
 # --------------------------------------------------------------------------------
 # Main
 # --------------------------------------------------------------------------------
@@ -398,27 +439,52 @@ def process_county(name: str, pdf_url: str, shah_html: str | None, bellows_html:
         print(f"WARNING: {name}: could not parse a Bellows slate; leaving non-reporting")
         return None
 
+    # Per-candidate slate URL used to source (verify) each attribution. Jackson's is
+    # county-specific; Shah's and Bellows's are single pages covering all counties.
+    slate_urls = {
+        "jackson": JACKSON_NEWS_URL_TMPL.format(slug=slug),
+        "bellows": BELLOWS_DELEGATES_URL,
+        "shah": SHAH_VOTE_URL,
+    }
+
     jackson = bellows = shah = ambiguous = unmatched = 0
+    # Per-delegate detail captured for the Sources view. Counting semantics below are
+    # identical to the original counts-only loop; we only additionally record, for each
+    # winning delegate, its bucket and the slate URL(s) it matched on.
+    details = []
     for r in delegates:
         ends = endpoints(norm(r["name"]))
         if ends is None:
-            unmatched += 1
-            continue
-        pdf_first, pdf_last = ends
-        on_j = match_pdf_to_slate(pdf_first, pdf_last, jslate)
-        on_b = match_pdf_to_slate(pdf_first, pdf_last, bslate)
-        on_s = match_pdf_to_slate(pdf_first, pdf_last, sslate)
-        hits = sum([on_j, on_b, on_s])
+            on_j = on_b = on_s = False
+        else:
+            pdf_first, pdf_last = ends
+            on_j = match_pdf_to_slate(pdf_first, pdf_last, jslate)
+            on_b = match_pdf_to_slate(pdf_first, pdf_last, bslate)
+            on_s = match_pdf_to_slate(pdf_first, pdf_last, sslate)
+        matched = [c for c, on in (("jackson", on_j), ("bellows", on_b), ("shah", on_s)) if on]
+        hits = len(matched)
         if hits == 0:
             unmatched += 1
+            bucket = "unmatched"
         elif hits > 1:
             ambiguous += 1
+            bucket = "ambiguous"
         elif on_j:
             jackson += 1
+            bucket = "jackson"
         elif on_b:
             bellows += 1
+            bucket = "bellows"
         else:
             shah += 1
+            bucket = "shah"
+        details.append({
+            "name": r["name"],
+            "county": name,
+            "bucket": bucket,
+            "pdf": pdf_url,
+            "slates": [{"candidate": c, "url": slate_urls[c]} for c in matched],
+        })
 
     seats = len(delegates)
     print(
@@ -434,6 +500,7 @@ def process_county(name: str, pdf_url: str, shah_html: str | None, bellows_html:
         "ambiguous": ambiguous,
         "unmatched": unmatched,
         "seats": seats,
+        "delegates": details,
     }
 
 
@@ -474,6 +541,7 @@ def main() -> int:
         bellows_html = None
 
     counties_out = []
+    delegates_out = []
     totals = {"jackson": 0, "bellows": 0, "shah": 0, "ambiguous": 0, "unmatched": 0, "seats": 0}
     reporting_count = 0
 
@@ -486,6 +554,7 @@ def main() -> int:
         if record is None:
             counties_out.append({"name": name, "reporting": False})
             continue
+        delegates_out.extend(record.pop("delegates"))
         counties_out.append(record)
         reporting_count += 1
         for k in totals:
@@ -499,20 +568,23 @@ def main() -> int:
 
     updated_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     new_island = build_data_island(updated_iso, counties_out)
+    new_delegates_island = build_delegates_island(updated_iso, delegates_out)
 
     if args.dry_run:
         print("--dry-run: not writing index.html. New data island would be:")
         print(new_island)
+        print(f"--dry-run: delegates island would carry {len(delegates_out)} delegate records.")
         return 0
 
     html = INDEX_HTML_PATH.read_text(encoding="utf-8")
     try:
         new_html = replace_data_island(html, new_island)
+        new_html = replace_delegates_island(new_html, new_delegates_island)
     except RuntimeError as e:
         print(f"ERROR: {e}", file=sys.stderr)
         return 1
     INDEX_HTML_PATH.write_text(new_html, encoding="utf-8")
-    print(f"Updated {INDEX_HTML_PATH} (updated={updated_iso})")
+    print(f"Updated {INDEX_HTML_PATH} (updated={updated_iso}, {len(delegates_out)} delegate records)")
     return 0
 
 
