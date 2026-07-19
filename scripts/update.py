@@ -73,6 +73,19 @@ COUNTIES = [
 
 CANDIDATES = {"jackson": "Troy Jackson", "bellows": "Shenna Bellows", "shah": "Nirav Shah"}
 
+# Manual fallback for counties whose results PDF has been published but is not (yet)
+# linked from the results index page in a form parse_results_index() recognizes.
+# Applied only when the index page yields no PDF for that county, so a later index
+# fix (or a different, correct link) always takes precedence. Aroostook's PDF was
+# posted directly to wp-content without a matching index link.
+MANUAL_PDF_URLS = {
+    "Aroostook": (
+        "https://mainedems.org/wp-content/uploads/2026/07/EXTERNAL_-Aroostook-Delegates-"
+        "Selection-Results-ElectionBuddyReport.483599.Results.260719213254.xlsx-"
+        "ElectionBuddyReport.483599.Resu_.pdf"
+    ),
+}
+
 
 # --------------------------------------------------------------------------------
 # HTTP helpers
@@ -523,6 +536,13 @@ def main() -> int:
     missing = [c for c in COUNTIES if c not in pdf_by_county]
     if missing:
         print(f"WARNING: results index did not list these expected counties at all: {missing}")
+
+    # Apply manual PDF fallbacks only where the index page provided no link, so an
+    # index-page fix always wins over the hardcoded URL.
+    for county, url in MANUAL_PDF_URLS.items():
+        if not pdf_by_county.get(county):
+            print(f"Using manual PDF override for {county} (not linked on index page): {url}")
+            pdf_by_county[county] = url
 
     reporting_names = [c for c in COUNTIES if pdf_by_county.get(c)]
     print(f"Counties currently reporting a PDF link: {reporting_names or 'none'}")
