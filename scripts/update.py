@@ -443,6 +443,17 @@ def process_county(name: str, pdf_url: str, shah_html: str | None, bellows_html:
     bslate = parse_bellows_slate(bellows_html, name)
 
     if not jslate:
+        # TEMP DIAGNOSTIC: dump why the Jackson slate did not parse for this county.
+        print(f"DIAG {name}: jackson_html={len(jackson_html)} bytes")
+        occ = list(re.finditer(r"delegate slate", jackson_html, flags=re.IGNORECASE))
+        print(f"DIAG {name}: 'delegate slate' occurrences={len(occ)}")
+        for i, mm in enumerate(occ):
+            win = jackson_html[mm.start(): mm.start() + 900]
+            print(f"DIAG {name}: occ[{i}]={win!r}")
+        li_samples = re.findall(r"<li[^>]*>.{0,120}?</li>", jackson_html, flags=re.S)
+        print(f"DIAG {name}: <li> samples={len(li_samples)}")
+        for s in li_samples[:12]:
+            print(f"DIAG {name}: li={s!r}")
         print(f"WARNING: {name}: could not parse a Jackson slate; leaving non-reporting")
         return None
     if not sslate:
