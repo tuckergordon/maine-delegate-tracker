@@ -1,0 +1,2368 @@
+{
+  "snapshot_of": "maine-delegate-results.tuckergordon.dev (committed index.html)",
+  "data_updated": "2026-07-19T01:40:20Z",
+  "candidates": {
+    "jackson": "Troy Jackson",
+    "bellows": "Shenna Bellows",
+    "shah": "Nirav Shah"
+  },
+  "totals": {
+    "jackson": 286,
+    "bellows": 4,
+    "shah": 5,
+    "ambiguous": 9,
+    "unmatched": 15,
+    "seats": 319
+  },
+  "counties": [
+    {
+      "name": "Androscoggin",
+      "reporting": true,
+      "jackson": 26,
+      "bellows": 1,
+      "shah": 0,
+      "ambiguous": 2,
+      "unmatched": 2,
+      "seats": 31,
+      "pdf": "https://mainedems.org/wp-content/uploads/2026/07/EXTERNAL_-Androscoggin-Delegate-Selection-ElectionBuddyReport.483589.Results.260718220132.xlsx-ElectionBuddyReport.483589.Resu_.pdf",
+      "delegates": [
+        {
+          "name": "Adam Lee",
+          "bucket": "ambiguous",
+          "slates": [
+            "jackson",
+            "bellows"
+          ]
+        },
+        {
+          "name": "Elisabeth Ames",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Mustafa Said",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Amy Bergen",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Kiernan Majerus-Collins",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Linda Deane",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Dana Staples",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Kilton Webb",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Valerie Gutmann",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Danielle Bailey",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jonah Fertig-Burd",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Rachel Randall",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "David Projansky",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "James Handy",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Michael Koch",
+          "bucket": "ambiguous",
+          "slates": [
+            "jackson",
+            "bellows"
+          ]
+        },
+        {
+          "name": "Mana Abdi",
+          "bucket": "bellows",
+          "slates": [
+            "bellows"
+          ]
+        },
+        {
+          "name": "Chris Beam",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Matthew Schlobohm",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Eric Fleischmann",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Austin Gayton",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Cynthia Phinney",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Orion Schwab",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jasmine Giles",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Joseph Mailey",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Suzette Moulton",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Calvin Heath",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Samson LaPenta",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Kristy Phinney",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Samuel Leavitt",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "John Myrand",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Tina Griffith",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Aroostook",
+      "reporting": false
+    },
+    {
+      "name": "Cumberland",
+      "reporting": true,
+      "jackson": 143,
+      "bellows": 0,
+      "shah": 0,
+      "ambiguous": 1,
+      "unmatched": 5,
+      "seats": 149,
+      "pdf": "https://mainedems.org/wp-content/uploads/2026/07/EXTERNAL_-Cumberland-Results.260718234718.xlsx-Cumberland-Results.260718234718.pdf",
+      "delegates": [
+        {
+          "name": "Julia Ackerly",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Willow Cunningham",
+          "bucket": "ambiguous",
+          "slates": [
+            "jackson",
+            "bellows"
+          ]
+        },
+        {
+          "name": "Stacy Brenner",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "April Fournier",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Benjamin Gaines",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Susan Andersen",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Boniface Kabongo",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Erin Babb",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Andrew Blunt",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Matthew Beck",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Emily Bukowski-Thall",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Julian Bencze",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Julia Brown",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Anna Bullett",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Sophia Warren",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Lucretia Woodruff",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Lucy Beirne",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Henry Bukowski-Thall",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Janel Crowley",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Amanda Gavin",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Aidan Andrews",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Connor Beaney",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Stephen Aucoin",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Rosie Ankhartz",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Caleb Edmondson",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Ruben Hunter",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jakobi Delgado",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Sean Flaherty",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Amanda Fickett",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Evan Bollschweiler",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "James Boyle",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Rebecca Millett",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Stephen Carroll",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Johanna Bozuwa",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Emily Hill",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Mollie Hale",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Lucy Hochschartner",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Arabella Perez",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Winston Lumpkins IV",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Roy Gedat",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Kaleigh Colson",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Grace Leavitt",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Caroline Fulcher",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Grayson Lookner",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Sarah English",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Chelsea Cogan",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Emily Howell",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jonathan Brown",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Burt Wartell",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "April Keezing",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Taylor Locke",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Rebecca Johnson",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Katie Schools",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Amy Strum",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Michael Todd Chretien",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Elizabeth Edgecomb",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Emily Meier",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jack Humeniuk",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jessica Muldoon",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Moira Cahill",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "James McCartney",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Elizabeth Sevigny",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Lila Kohrman-Glaser",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Shelby Leighton",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Nancy Collins",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Cheyenne Gallivan",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Alice Wilson",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Heath Jackson",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Anthony Buxton",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Joann Whipple",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Smit Shah",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Rosemarie Deangelis",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Colin Cernik",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Patrick Rankin",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Andrew Tonks",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Timothy Hill",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Patricia Carbonneau",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Wesley Pelletier",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jason Moyer-Lee",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Ryan Lizanecz",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Andrew Wolfe",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Christopher Kessler",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Matthew Irving",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Christopher Glynn",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Charles Skold",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Alexander McClintick",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Joy Noyes-Fletcher",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Mary Alice Scott",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jason Shedlock",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Lydia Stone",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Lincoln Tiner",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Kathleen Gallegos",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Doris Poland",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Matthew Fields",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Alexander Kennedy",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Leo Burnett",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Anthony Donovan",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Brooks Miller",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Isaac MacDougal",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "John Stejskal",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Joe Cowie",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Cole Kinsler",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Michael Seavey",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Emily Sowles",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "David Morse",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Lisa Scali",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Hillary Shende",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Maria Padian",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Andrew Shuttleworth",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Savanna Pettengill",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Lauren LeBrun",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jennifer Nappi",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Collin Rees",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Natalie Kelliher",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Carmen Poff",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "George Katilus IV",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Diane Herrmann",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Michael Williams",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Kristen McNerney",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Richard Wurfel",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Reese Remington",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "James Lewis",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Craig Dorais",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Charlie Vacchiano",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Patricia McKeen",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Ray Wynne",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Alexander Redfield",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Genevieve Schaab",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jeffrey Grinvalsky",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Charles Spatz",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Donna Senkbeil",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Spencer Lukens",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Scott Mohler",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Holden Willard",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jeremy McGowan",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Meaghan Wilson",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Michael LeComte",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Patrick O'Malley",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "James Macon",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Lori Poland",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Michael McGuigan",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jordan Smith",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Margaret Sinclair",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Matthew Kennedy",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Peter McLaughlin",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Brandon Ronfeldt",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Serina Dewolfe",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Stephen Reinhold",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Sam Zuckerman",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Franklin",
+      "reporting": true,
+      "jackson": 6,
+      "bellows": 0,
+      "shah": 0,
+      "ambiguous": 0,
+      "unmatched": 3,
+      "seats": 9,
+      "pdf": "https://mainedems.org/wp-content/uploads/2026/07/EXTERNAL-Franklin-County-Results-ElectionBuddyReport.483583.Results.260718163107.xlsx-Franklin-County-Results.pdf",
+      "delegates": [
+        {
+          "name": "Gary McGrane",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jennifer Ouellette",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Severin Beliveau",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Peter Stein",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Anne Smith",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Liam Beliveau",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Ryan Small",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Adam Bobrow",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Nicole Spencer-Gardner",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Hancock",
+      "reporting": true,
+      "jackson": 22,
+      "bellows": 0,
+      "shah": 0,
+      "ambiguous": 0,
+      "unmatched": 1,
+      "seats": 23,
+      "pdf": "https://mainedems.org/wp-content/uploads/2026/07/EXTERNAL_-Hancock-Results-ElectionBuddyReport.483602.Results.260718172622-1.xlsx-Hancock-Results-ElectionBuddy-1.pdf",
+      "delegates": [
+        {
+          "name": "Nina Milliken",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Carole Beal",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Dylan Wombacher",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Libbey Gulliver",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Sara Barwise",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Barbara Bramble",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Ellen Booraem",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Diana P. Page",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Mia Strong",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Josselyn Miller",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Freddie Cole",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Nicole Grohoski",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Matthew Cornish",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Claire Mortimer",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Daniel Cantor",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Ronald Russell",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Gregory McHale",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Steven Ribble",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Arthur House",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Susan Kirk",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Angela Faneuf",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "John Kirk",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Raymond Ross",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Kennebec",
+      "reporting": true,
+      "jackson": 37,
+      "bellows": 0,
+      "shah": 0,
+      "ambiguous": 3,
+      "unmatched": 0,
+      "seats": 40,
+      "pdf": "https://mainedems.org/wp-content/uploads/2026/07/EXTERNAL_-Kennebec-Delegate-Selection-ElectionBuddyReport.483603.Results.260718182013.xlsx-ElectionBuddyReport.483603.Resu_.pdf",
+      "delegates": [
+        {
+          "name": "Craig Hickman",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Samantha Burdick",
+          "bucket": "ambiguous",
+          "slates": [
+            "jackson",
+            "bellows"
+          ]
+        },
+        {
+          "name": "Lance Boucher",
+          "bucket": "ambiguous",
+          "slates": [
+            "jackson",
+            "bellows",
+            "shah"
+          ]
+        },
+        {
+          "name": "Sharon Treat",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Abigail St. Valle",
+          "bucket": "ambiguous",
+          "slates": [
+            "jackson",
+            "bellows"
+          ]
+        },
+        {
+          "name": "Juliet Shagoury",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Daniel Shagoury",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Alyssa Withee",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Patrick Wynne",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Cameron Lavallee",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Kevin Lamoreau",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Whitney Kahn",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Morgan Lueck",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "R Arthur Finch",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Joseph Gribbin",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Patrick McGowan",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Mercedes Faucher-Eldert",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Seth Main",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Amy Simoni",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jonathan French",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Diane Morin",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Judith Bielecki",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Brett Rogers",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Charles Webber",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Michelle Brann",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Robert Duplessie",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Douglas Hall",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jason Healy",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Robert Glidden",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "David Johnson",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Steven Keaten",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Maryanne McKinnon",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Kerri Pitts",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jacob Teitelbaum",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "John Soifer",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Alexander Parent",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Marcel Moreau",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "John Hanson",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Dylan Horkan",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Griffin Sherry",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Knox",
+      "reporting": false
+    },
+    {
+      "name": "Lincoln",
+      "reporting": true,
+      "jackson": 7,
+      "bellows": 1,
+      "shah": 3,
+      "ambiguous": 0,
+      "unmatched": 4,
+      "seats": 15,
+      "pdf": "https://mainedems.org/wp-content/uploads/2026/07/EXTERNAL_-Lincoln-Delegate-Selection-ElectionBuddyReport.483614.Results.260718203043.xlsx-ElectionBuddyReport.483614.Resu_.pdf",
+      "delegates": [
+        {
+          "name": "Cameron Reny",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Todd Brackett",
+          "bucket": "shah",
+          "slates": [
+            "shah"
+          ]
+        },
+        {
+          "name": "Breanna Davis",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Nigel Calder",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Cara Gaffney",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Wayne Farrin",
+          "bucket": "bellows",
+          "slates": [
+            "bellows"
+          ]
+        },
+        {
+          "name": "Peter Arnold",
+          "bucket": "shah",
+          "slates": [
+            "shah"
+          ]
+        },
+        {
+          "name": "Heidi Ellrich",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Leah Sprague",
+          "bucket": "shah",
+          "slates": [
+            "shah"
+          ]
+        },
+        {
+          "name": "Stephen Kent",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Debora Elliott",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jenny Gray",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Mary Devlin",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Ronna Lugosch",
+          "bucket": "unmatched",
+          "slates": []
+        },
+        {
+          "name": "Jason Putnam",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Oxford",
+      "reporting": false
+    },
+    {
+      "name": "Penobscot",
+      "reporting": true,
+      "jackson": 44,
+      "bellows": 0,
+      "shah": 0,
+      "ambiguous": 0,
+      "unmatched": 0,
+      "seats": 44,
+      "pdf": "https://mainedems.org/wp-content/uploads/2026/07/EXTERNAL_-Penobscot-County-Results-ElectionBuddyReport.483651.Results.260718195456-1.xlsx-Penobscot-County-Results-Electi-1.pdf",
+      "delegates": [
+        {
+          "name": "Sean Faircloth",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Amy Roeder",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "James Dill",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Adam Goode",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Dillon Murray",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Colby Bosley-Smith",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Aurora Green",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Erin Oberson",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Sara Stevens",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "John E Mckay",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Sophie Craig",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Alejandro Strong",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Abigail Shultz",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jessie Lambert",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Morgan Pottle Urquhart",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Peter Howe",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Ashlynn Ward",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Kathryn King",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Eric Brown",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Kevin O'Connell",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Charles Fraser",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Lauren Jacobs",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jason Siegel",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Julia Chapin",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jake Adams",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Lindsay Seward",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Coralie Giles",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Eve Breedlove",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Kaia De Vries",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "William Wood",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Garner Holdsworth",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Maren Leach",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Ryan Lynch",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Thomas Maher",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Michael Mooney",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Andrea Tirrell",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Milton McBreairty",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Robert Clune",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Alexis Merk",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Lewis Overlock",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Adam Leach",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Jordan Simpson",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Colin Stewart",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        },
+        {
+          "name": "Renee Overlock",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Piscataquis",
+      "reporting": false
+    },
+    {
+      "name": "Sagadahoc",
+      "reporting": false
+    },
+    {
+      "name": "Somerset",
+      "reporting": false
+    },
+    {
+      "name": "Waldo",
+      "reporting": false
+    },
+    {
+      "name": "Washington",
+      "reporting": true,
+      "jackson": 1,
+      "bellows": 2,
+      "shah": 2,
+      "ambiguous": 3,
+      "unmatched": 0,
+      "seats": 8,
+      "pdf": "https://mainedems.org/wp-content/uploads/2026/07/EXTERNAL_-Washington-Results-ElectionBuddyReport.483660.Results.260718180313.xlsx-ElectionBuddyReport.483660.Resu_.pdf",
+      "delegates": [
+        {
+          "name": "Kathleen Dunbar",
+          "bucket": "ambiguous",
+          "slates": [
+            "bellows",
+            "shah"
+          ]
+        },
+        {
+          "name": "McGinley Jones",
+          "bucket": "ambiguous",
+          "slates": [
+            "jackson",
+            "shah"
+          ]
+        },
+        {
+          "name": "Gretchen Gordon",
+          "bucket": "bellows",
+          "slates": [
+            "bellows"
+          ]
+        },
+        {
+          "name": "Zachary Shomler",
+          "bucket": "ambiguous",
+          "slates": [
+            "jackson",
+            "bellows"
+          ]
+        },
+        {
+          "name": "Peter Howell",
+          "bucket": "shah",
+          "slates": [
+            "shah"
+          ]
+        },
+        {
+          "name": "Sharen Eaton",
+          "bucket": "bellows",
+          "slates": [
+            "bellows"
+          ]
+        },
+        {
+          "name": "David Kuhns",
+          "bucket": "shah",
+          "slates": [
+            "shah"
+          ]
+        },
+        {
+          "name": "Elizabeth Nichols-Goodliff",
+          "bucket": "jackson",
+          "slates": [
+            "jackson"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "York",
+      "reporting": false
+    }
+  ]
+}
