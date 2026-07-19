@@ -2,8 +2,9 @@ name: Update delegate data
 
 on:
   schedule:
-    # Every 15 minutes.
-    - cron: '*/15 * * * *'
+    # Every 30 minutes, offset from the top of the hour to dodge peak-load
+    # scheduling congestion (GitHub silently drops scheduled runs under load).
+    - cron: '7,37 * * * *'
   workflow_dispatch:
 
 permissions:
