@@ -227,6 +227,12 @@ def parse_pdf_bytes(data: bytes) -> list[dict]:
 # --------------------------------------------------------------------------------
 
 JACKSON_LI_RE = re.compile(r"<li><p>([^<]+)</p></li>")
+# Anchor on the "DELEGATE SLATE" heading, tolerating any run of HTML tags and/or
+# whitespace between the two words. Aroostook (Jackson's home county) renders its
+# heading as `TROY DELEGATE</span> <span ...>SLATE:`, so the two words are NOT
+# contiguous in the raw HTML -- a plain "delegate slate" search finds only the
+# JSON-escaped hydration copies (<span>...) and misses the real list.
+JACKSON_ANCHOR_RE = re.compile(r"delegate(?:\s|<[^>]+>)*slate", re.IGNORECASE)
 
 
 def parse_jackson_slate(html: str, county: str) -> list[tuple[str, str]]:
@@ -235,15 +241,15 @@ def parse_jackson_slate(html: str, county: str) -> list[tuple[str, str]]:
     every county's slate (hydration data) where the tags read `\\u003cli\\u003e...` -- those
     must NOT be parsed as literal HTML.
 
-    We scan each "delegate slate" occurrence in order and pull the real, unescaped
-    <li><p> items from its window. We deliberately do NOT try to first locate a literal
-    <ul>/<ol> opening tag (some county pages -- e.g. Aroostook, Jackson's home county --
-    have page layouts where that boundary hunt fails), and instead bound the list at the
-    first list close following the first real item so we never spill into unrelated
-    <li><p> content later on the page. The escaped hydration copies contain no literal
-    <li><p>, so they simply yield nothing and are skipped.
+    We scan each "DELEGATE SLATE" heading occurrence in order (tolerating tags between the
+    two words, see JACKSON_ANCHOR_RE) and pull the real, unescaped <li><p> items from its
+    window. We deliberately do NOT try to first locate a literal <ul>/<ol> opening tag
+    (some county pages have layouts where that boundary hunt fails), and instead bound the
+    list at the first list close following the first real item so we never spill into
+    unrelated <li><p> content later on the page. The escaped hydration copies contain no
+    literal <li><p>, so they simply yield nothing and are skipped.
     """
-    for m in re.finditer(r"delegate slate", html, flags=re.IGNORECASE):
+    for m in JACKSON_ANCHOR_RE.finditer(html):
         window = html[m.start(): m.start() + 8000]
         first_li = JACKSON_LI_RE.search(window)
         if not first_li:
@@ -447,16 +453,6 @@ def process_county(name: str, pdf_url: str, shah_html: str | None, bellows_html:
     bslate = parse_bellows_slate(bellows_html, name)
 
     if not jslate:
-        # TEMP DIAG v2: locate the first real <li><p> and show its context + distance
-        # to every "delegate slate" occurrence, to see why the window misses it.
-        first = re.search(r"<li><p>[^<]+</p></li>", jackson_html)
-        print(f"DIAG2 {name}: first real <li><p> at {first.start() if first else None}")
-        if first:
-            p = first.start()
-            print(f"DIAG2 {name}: ctx={jackson_html[max(0,p-400):p+200]!r}")
-            occs = [m.start() for m in re.finditer(r'delegate slate', jackson_html, re.I)]
-            near = [o for o in occs if 0 <= p - o <= 8000]
-            print(f"DIAG2 {name}: occ_count={len(occs)} occ_before_within8k={near} p_minus_min_occ={min((p-o for o in occs if o<=p), default=None)}")
         print(f"WARNING: {name}: could not parse a Jackson slate; leaving non-reporting")
         return None
     if not sslate:
