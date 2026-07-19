@@ -73,6 +73,19 @@ COUNTIES = [
 
 CANDIDATES = {"jackson": "Troy Jackson", "bellows": "Shenna Bellows", "shah": "Nirav Shah"}
 
+# Manual fallback for counties whose results PDF has been published but is not (yet)
+# linked from the results index page in a form parse_results_index() recognizes.
+# Applied only when the index page yields no PDF for that county, so a later index
+# fix (or a different, correct link) always takes precedence. Aroostook's PDF was
+# posted directly to wp-content without a matching index link.
+MANUAL_PDF_URLS = {
+    "Aroostook": (
+        "https://mainedems.org/wp-content/uploads/2026/07/EXTERNAL_-Aroostook-Delegates-"
+        "Selection-Results-ElectionBuddyReport.483599.Results.260719213254.xlsx-"
+        "ElectionBuddyReport.483599.Resu_.pdf"
+    ),
+}
+
 
 # --------------------------------------------------------------------------------
 # HTTP helpers
@@ -213,32 +226,42 @@ def parse_pdf_bytes(data: bytes) -> list[dict]:
 # Candidate slate parsing
 # --------------------------------------------------------------------------------
 
+JACKSON_LI_RE = re.compile(r"<li><p>([^<]+)</p></li>")
+# Anchor on the "DELEGATE SLATE" heading, tolerating any run of HTML tags and/or
+# whitespace between the two words. Aroostook (Jackson's home county) renders its
+# heading as `TROY DELEGATE</span> <span ...>SLATE:`, so the two words are NOT
+# contiguous in the raw HTML -- a plain "delegate slate" search finds only the
+# JSON-escaped hydration copies (<span>...) and misses the real list.
+JACKSON_ANCHOR_RE = re.compile(r"delegate(?:\s|<[^>]+>)*slate", re.IGNORECASE)
+
+
 def parse_jackson_slate(html: str, county: str) -> list[tuple[str, str]]:
     """jacksonformaine.com/news/<county> lists names as <li><p>Last, First Middle</p></li>
-    inside a <ul>/<ol> beneath a "... DELEGATE SLATE:" heading. The page also embeds a
-    JSON-escaped copy of the same content (hydration data) further down that must NOT be
-    parsed as literal HTML -- so we scan each "DELEGATE SLATE" occurrence in order and
-    return the first one that actually yields real <li><p> tags.
+    beneath a "... DELEGATE SLATE:" heading. The page also embeds a JSON-escaped copy of
+    every county's slate (hydration data) where the tags read `\\u003cli\\u003e...` -- those
+    must NOT be parsed as literal HTML.
+
+    We scan each "DELEGATE SLATE" heading occurrence in order (tolerating tags between the
+    two words, see JACKSON_ANCHOR_RE) and pull the real, unescaped <li><p> items from its
+    window. We deliberately do NOT try to first locate a literal <ul>/<ol> opening tag
+    (some county pages have layouts where that boundary hunt fails), and instead bound the
+    list at the first list close following the first real item so we never spill into
+    unrelated <li><p> content later on the page. The escaped hydration copies contain no
+    literal <li><p>, so they simply yield nothing and are skipped.
     """
-    for m in re.finditer(r"delegate slate", html, flags=re.IGNORECASE):
-        idx = m.start()
-        window = html[idx: idx + 8000]
-        ul_pos = window.find("<ul>")
-        ol_pos = window.find("<ol>")
-        candidates = [p for p in (ul_pos, ol_pos) if p != -1]
-        if not candidates:
+    for m in JACKSON_ANCHOR_RE.finditer(html):
+        window = html[m.start(): m.start() + 8000]
+        first_li = JACKSON_LI_RE.search(window)
+        if not first_li:
             continue
-        list_start = min(candidates)
-        tag = "ul" if list_start == ul_pos else "ol"
-        list_end = window.find(f"</{tag}>", list_start)
-        if list_end == -1:
-            continue
-        chunk = window[list_start:list_end]
-        items = re.findall(r"<li><p>([^<]+)</p></li>", chunk)
-        if not items:
-            continue
+        end = len(window)
+        for close in ("</ul>", "</ol>"):
+            pos = window.find(close, first_li.start())
+            if pos != -1:
+                end = min(end, pos)
+        chunk = window[:end]
         slate = []
-        for it in items:
+        for it in JACKSON_LI_RE.findall(chunk):
             if "," not in it:
                 continue
             last, first_full = it.split(",", 1)
@@ -523,6 +546,13 @@ def main() -> int:
     missing = [c for c in COUNTIES if c not in pdf_by_county]
     if missing:
         print(f"WARNING: results index did not list these expected counties at all: {missing}")
+
+    # Apply manual PDF fallbacks only where the index page provided no link, so an
+    # index-page fix always wins over the hardcoded URL.
+    for county, url in MANUAL_PDF_URLS.items():
+        if not pdf_by_county.get(county):
+            print(f"Using manual PDF override for {county} (not linked on index page): {url}")
+            pdf_by_county[county] = url
 
     reporting_names = [c for c in COUNTIES if pdf_by_county.get(c)]
     print(f"Counties currently reporting a PDF link: {reporting_names or 'none'}")

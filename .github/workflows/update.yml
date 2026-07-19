@@ -1,10 +1,9 @@
 name: Update delegate data
 
 on:
-  schedule:
-    # Every 30 minutes, offset from the top of the hour to dodge peak-load
-    # scheduling congestion (GitHub silently drops scheduled runs under load).
-    - cron: '7,37 * * * *'
+  # Scheduled runs are disabled: all 16 counties have reported (Aroostook was
+  # the last), so there is nothing left to poll for. Left as workflow_dispatch
+  # only, so the scraper can still be run manually if a source is corrected.
   workflow_dispatch:
 
 permissions:
