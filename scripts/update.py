@@ -226,32 +226,36 @@ def parse_pdf_bytes(data: bytes) -> list[dict]:
 # Candidate slate parsing
 # --------------------------------------------------------------------------------
 
+JACKSON_LI_RE = re.compile(r"<li><p>([^<]+)</p></li>")
+
+
 def parse_jackson_slate(html: str, county: str) -> list[tuple[str, str]]:
     """jacksonformaine.com/news/<county> lists names as <li><p>Last, First Middle</p></li>
-    inside a <ul>/<ol> beneath a "... DELEGATE SLATE:" heading. The page also embeds a
-    JSON-escaped copy of the same content (hydration data) further down that must NOT be
-    parsed as literal HTML -- so we scan each "DELEGATE SLATE" occurrence in order and
-    return the first one that actually yields real <li><p> tags.
+    beneath a "... DELEGATE SLATE:" heading. The page also embeds a JSON-escaped copy of
+    every county's slate (hydration data) where the tags read `\\u003cli\\u003e...` -- those
+    must NOT be parsed as literal HTML.
+
+    We scan each "delegate slate" occurrence in order and pull the real, unescaped
+    <li><p> items from its window. We deliberately do NOT try to first locate a literal
+    <ul>/<ol> opening tag (some county pages -- e.g. Aroostook, Jackson's home county --
+    have page layouts where that boundary hunt fails), and instead bound the list at the
+    first list close following the first real item so we never spill into unrelated
+    <li><p> content later on the page. The escaped hydration copies contain no literal
+    <li><p>, so they simply yield nothing and are skipped.
     """
     for m in re.finditer(r"delegate slate", html, flags=re.IGNORECASE):
-        idx = m.start()
-        window = html[idx: idx + 8000]
-        ul_pos = window.find("<ul>")
-        ol_pos = window.find("<ol>")
-        candidates = [p for p in (ul_pos, ol_pos) if p != -1]
-        if not candidates:
+        window = html[m.start(): m.start() + 8000]
+        first_li = JACKSON_LI_RE.search(window)
+        if not first_li:
             continue
-        list_start = min(candidates)
-        tag = "ul" if list_start == ul_pos else "ol"
-        list_end = window.find(f"</{tag}>", list_start)
-        if list_end == -1:
-            continue
-        chunk = window[list_start:list_end]
-        items = re.findall(r"<li><p>([^<]+)</p></li>", chunk)
-        if not items:
-            continue
+        end = len(window)
+        for close in ("</ul>", "</ol>"):
+            pos = window.find(close, first_li.start())
+            if pos != -1:
+                end = min(end, pos)
+        chunk = window[:end]
         slate = []
-        for it in items:
+        for it in JACKSON_LI_RE.findall(chunk):
             if "," not in it:
                 continue
             last, first_full = it.split(",", 1)
@@ -443,17 +447,6 @@ def process_county(name: str, pdf_url: str, shah_html: str | None, bellows_html:
     bslate = parse_bellows_slate(bellows_html, name)
 
     if not jslate:
-        # TEMP DIAGNOSTIC: dump why the Jackson slate did not parse for this county.
-        print(f"DIAG {name}: jackson_html={len(jackson_html)} bytes")
-        occ = list(re.finditer(r"delegate slate", jackson_html, flags=re.IGNORECASE))
-        print(f"DIAG {name}: 'delegate slate' occurrences={len(occ)}")
-        for i, mm in enumerate(occ):
-            win = jackson_html[mm.start(): mm.start() + 900]
-            print(f"DIAG {name}: occ[{i}]={win!r}")
-        li_samples = re.findall(r"<li[^>]*>.{0,120}?</li>", jackson_html, flags=re.S)
-        print(f"DIAG {name}: <li> samples={len(li_samples)}")
-        for s in li_samples[:12]:
-            print(f"DIAG {name}: li={s!r}")
         print(f"WARNING: {name}: could not parse a Jackson slate; leaving non-reporting")
         return None
     if not sslate:
